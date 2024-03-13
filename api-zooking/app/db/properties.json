@@ -1,0 +1,62 @@
+[
+    {
+        "name": "AL1",
+        "address": "Rua 1234",
+        "status": "Free",
+        "curr_price": 340.00
+    },
+    {
+        "name": "AL2",
+        "address": "Rua 5678",
+        "status": "Free",
+        "curr_price": 140.00
+    },
+    {
+        "name": "AL3",
+        "address": "Rua 91011",
+        "status": "Free",
+        "curr_price": 360.00
+    },
+    {
+        "name": "AL4",
+        "address": "Rua 121314",
+        "status": "Occupied",
+        "curr_price": 240.00
+    },
+    {
+        "name": "AL5",
+        "address": "Rua 151617",
+        "status": "Free",
+        "curr_price": 540.00
+    },
+    {
+        "name": "AL6",
+        "address": "Rua 181920",
+        "status": "Maintenance",
+        "curr_price": 330.00
+    },
+    {
+        "name": "AL7",
+        "address": "Rua 212223",
+        "status": "Free",
+        "curr_price": 320.00
+    },
+    {
+        "name": "AL8",
+        "address": "Rua 242526",
+        "status": "Cleaning",
+        "curr_price": 34.00
+    },
+    {
+        "name": "AL9",
+        "address": "Rua 272829",
+        "status": "Occupied",
+        "curr_price": 30.00
+    },
+    {
+        "name": "AL10",
+        "address": "Rua 303132",
+        "status": "Occupied",
+        "curr_price": 140.00
+    }
+]
