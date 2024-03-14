@@ -1,19 +1,20 @@
 from fastapi import APIRouter
 from typing import Dict
-from app.schemas.property import PropertyBase
+from app.schemas.property import PropertyBase, PropertyInDB
 
 data = {
-    1: {"name": "AL1", "address": "Rua 1234", "status": "Free", "curr_price": 340.00},
-    2: {"name": "AL2", "address": "Rua 5678", "status": "Free", "curr_price": 140.00},
-    3: {"name": "AL3", "address": "Rua 91011", "status": "Free", "curr_price": 360.00},
-    4: {"name": "AL4", "address": "Rua 121314", "status": "Occupied", "curr_price": 240.00},
-    5: {"name": "AL5", "address": "Rua 151617", "status": "Free", "curr_price": 540.00},
-    6: {"name": "AL6", "address": "Rua 181920", "status": "Maintenance", "curr_price": 330.00},
-    7: {"name": "AL7", "address": "Rua 212223", "status": "Free", "curr_price": 320.00},
-    8: {"name": "AL8", "address": "Rua 242526", "status": "Cleaning", "curr_price": 34.00},
-    9: {"name": "AL9", "address": "Rua 272829", "status": "Occupied", "curr_price": 30.00},
-    10: {"name": "AL10", "address": "Rua 303132", "status": "Occupied", "curr_price": 140.00}
+    1: PropertyBase(name="Girassol", address="Rua 1234", status="Free", curr_price=140.00),
+    2: PropertyBase(name="Poente Azul", address="Rua 5678", status="Free", curr_price=24.00),
+    3: PropertyBase(name="Conforto e Bem Estar", address="Rua 91011", status="Free", curr_price=36.00),
+    4: PropertyBase(name="Flores e Amores", address="Rua 121314", status="Occupied", curr_price=24.00),
+    5: PropertyBase(name="São José Residences", address="Rua 151617", status="Free", curr_price=54.00),
+    6: PropertyBase(name="Residencial Aveiro", address="Rua 181920", status="Maintenance", curr_price=133.00),
+    7: PropertyBase(name="Ponto8", address="Rua 212223", status="Free", curr_price=32.00),
+    8: PropertyBase(name="Bom Lugar", address="Rua 242526", status="Cleaning", curr_price=130.00),
+    9: PropertyBase(name="Hotel Miradouro", address="Rua 272829", status="Occupied", curr_price=30.00),
+    10: PropertyBase(name="Spot Hostel", address="Rua 303132", status="Occupied", curr_price=90.00)
 }
+
 
 router = APIRouter(
     prefix="/properties",
@@ -28,17 +29,40 @@ def get_properties_list() -> Dict[int, PropertyBase]:
 
 
 @router.get("/{property_id}", status_code=200)
-def get_propery_by_id(property_id: int) -> PropertyBase:
+def get_property_by_id(property_id: int) -> PropertyBase:
     return data[property_id]  
 
 
 @router.post("/", status_code=201)
-def create_property(property: PropertyBase) -> PropertyBase:
-    data[len(data)+1] = property
-    return property
+def create_property(property: PropertyBase) -> PropertyInDB:
+    id = len(data)+1
+    data[id] = property
+    property_data = data[id]
+    property_in_db = PropertyInDB(
+        name=property_data.name,
+        address=property_data.address,
+        status=property_data.status,
+        curr_price=property_data.curr_price,
+        id=id
+    )
+    return property_in_db
 
 
 @router.put("/{property_id}", status_code=200)
-def update_property(property_id: int, property: PropertyBase) -> PropertyBase:
+def update_property(property_id: int, property: PropertyBase) -> PropertyInDB:
     data[property_id] = property
-    return property
+    property_data = data[property_id]
+    property_in_db = PropertyInDB(
+        name=property_data.name,
+        address=property_data.address,
+        status=property_data.status,
+        curr_price=property_data.curr_price,
+        id=property_id
+    )
+    return property_in_db
+
+
+@router.delete("/{property_id}", status_code=200)
+def delete_property(property_id: int) -> Dict[int, PropertyBase]:
+    del data[property_id]
+    return data
