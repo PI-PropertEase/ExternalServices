@@ -1,4 +1,6 @@
 from fastapi import APIRouter
+from typing import Dict
+from app.schemas.property import PropertyBase
 
 data = {
     1: {"name": "AL1", "address": "Rua 1234", "status": "Free", "curr_price": 340.00},
@@ -20,10 +22,23 @@ router = APIRouter(
 )
 
 
-@router.get("/")
-async def properties_list():
+@router.get("/", status_code=200)
+def get_properties_list() -> Dict[int, PropertyBase]:
     return data
 
-@router.get("/{property_id}")
-async def property_detail(property_id: int):
+
+@router.get("/{property_id}", status_code=200)
+def get_propery_by_id(property_id: int) -> PropertyBase:
     return data[property_id]  
+
+
+@router.post("/", status_code=201)
+def create_property(property: PropertyBase) -> PropertyBase:
+    data[len(data)+1] = property
+    return property
+
+
+@router.put("/{property_id}", status_code=200)
+def update_property(property_id: int, property: PropertyBase) -> PropertyBase:
+    data[property_id] = property
+    return property
