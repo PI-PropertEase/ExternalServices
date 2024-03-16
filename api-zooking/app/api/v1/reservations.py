@@ -7,11 +7,11 @@ reservation_data = {
     1: ReservationBase(property_id=1, status="OnGoing", client_name="John Doe", client_phone="1234567890",
                        arrival=datetime(2024, 3, 14, 12, 0), departure=datetime(2024, 3, 16, 12, 0), cost=150.0),
     2: ReservationBase(property_id=1, status="Pending", client_name="Jane Smith", client_phone="9876543210",
-                       arrival=datetime(2024, 3, 15, 12, 0), departure=datetime(2024, 3, 18, 12, 0), cost=200.0),
+                       arrival=datetime(2024, 3, 16, 12, 0), departure=datetime(2024, 3, 18, 12, 0), cost=200.0),
     3: ReservationBase(property_id=1, status="OnGoing", client_name="Alice Johnson", client_phone="5551234567",
-                       arrival=datetime(2024, 3, 16, 12, 0), departure=datetime(2024, 3, 19, 12, 0), cost=180.0),
+                       arrival=datetime(2024, 3, 18, 12, 0), departure=datetime(2024, 3, 19, 12, 0), cost=180.0),
     4: ReservationBase(property_id=1, status="Pending", client_name="Bob Brown", client_phone="5559876543",
-                       arrival=datetime(2024, 3, 17, 12, 0), departure=datetime(2024, 3, 20, 12, 0), cost=220.0),
+                       arrival=datetime(2024, 3, 19, 12, 0), departure=datetime(2024, 3, 20, 12, 0), cost=220.0),
     5: ReservationBase(property_id=2, status="OnGoing", client_name="Emily Davis", client_phone="5552223333",
                        arrival=datetime(2024, 3, 18, 12, 0), departure=datetime(2024, 3, 21, 12, 0), cost=190.0),
     6: ReservationBase(property_id=3, status="Pending", client_name="Michael Wilson", client_phone="5554445555",
@@ -40,8 +40,7 @@ reservation_data = {
 
 router = APIRouter(
     prefix="/reservations",
-    tags=["reservations"],
-    responses={404: {"description": "Not found"}},
+    tags=["reservations"]
 )
 
 

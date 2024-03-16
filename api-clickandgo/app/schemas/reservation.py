@@ -15,6 +15,7 @@ class ReservationBase(BaseModel):
         if v <= values['arrival']:
             raise ValueError('Departure date must be after arrival date')
         return v
+        
 
 class ReservationInDb(ReservationBase):
     id: int
