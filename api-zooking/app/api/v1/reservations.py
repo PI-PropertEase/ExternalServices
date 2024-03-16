@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from typing import Dict, List
-from app.schemas.reservation import ReservationBase
+from app.schemas.reservation import ReservationBase, ReservationInDb
 from datetime import datetime
 
 reservation_data = {
@@ -60,15 +60,38 @@ def get_reservations_by_property_id(property_id: int) -> List[ReservationBase]:
 
 
 @router.post("/", status_code=201)
-def create_reservation(reservation: ReservationBase) -> ReservationBase:
-    reservation_data[len(reservation_data)+1] = reservation
-    return reservation
+def create_reservation(reservation: ReservationBase) -> ReservationInDb:
+    id = len(reservation_data)+1
+    reservation_data[id] = reservation
+    saved_reservation = reservation_data[id]
+    reservation_in_db = ReservationInDb(
+        property_id=saved_reservation.property_id,
+        status=saved_reservation.status,
+        client_name=saved_reservation.client_name,
+        client_phone=saved_reservation.client_phone,
+        arrival=saved_reservation.arrival,
+        departure=saved_reservation.departure,
+        cost=saved_reservation.cost,
+        id=id
+    )
+    return reservation_in_db
 
 
 @router.put("/{reservation_id}", status_code=200)
-def update_reservation(reservation_id: int, reservation: ReservationBase) -> ReservationBase:
+def update_reservation(reservation_id: int, reservation: ReservationBase) -> ReservationInDb:
     reservation_data[reservation_id] = reservation
-    return reservation
+    saved_reservation = reservation_data[reservation_id]
+    reservation_in_db = ReservationInDb(
+        property_id=saved_reservation.property_id,
+        status=saved_reservation.status,
+        client_name=saved_reservation.client_name,
+        client_phone=saved_reservation.client_phone,
+        arrival=saved_reservation.arrival,
+        departure=saved_reservation.departure,
+        cost=saved_reservation.cost,
+        id=reservation_id
+    )
+    return reservation_in_db
 
 
 @router.delete("/{reservation_id}", status_code=200)

@@ -9,3 +9,6 @@ class ReservationBase(BaseModel):
     arrival: datetime
     departure: datetime
     cost: float
+
+class ReservationInDb(ReservationBase):
+    id: int
