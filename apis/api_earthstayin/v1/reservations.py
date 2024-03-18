@@ -1,7 +1,8 @@
 from fastapi import APIRouter
 from typing import Dict, List
-from app.schemas.reservation import ReservationBase, ReservationInDb
+from base_schemas.reservation import ReservationBase, ReservationInDB
 from datetime import datetime
+from threading import Lock
 
 reservation_data = {
     1: ReservationBase(property_id=10, status="OnGoing", client_name="Harry Larry", client_phone="5555555555",
@@ -13,6 +14,8 @@ reservation_data = {
     4: ReservationBase(property_id=8, status="Pending", client_name="Dalton Johnson", client_phone="8888888888",
                        arrival=datetime(2024, 3, 5, 12, 0), departure=datetime(2024, 3, 10, 12, 0), cost=230.0),
 }
+
+lock = Lock()
 
 
 router = APIRouter(
@@ -36,11 +39,12 @@ def get_reservations_by_property_id(property_id: int) -> List[ReservationBase]:
 
 
 @router.post("/", status_code=201)
-def create_reservation(reservation: ReservationBase) -> ReservationInDb:
-    id = len(reservation_data)+1
-    reservation_data[id] = reservation
+def create_reservation(reservation: ReservationBase) -> ReservationInDB:
+    with lock:
+        id = len(reservation_data)+1
+        reservation_data[id] = reservation
     saved_reservation = reservation_data[id]
-    reservation_in_db = ReservationInDb(
+    reservation_in_db = ReservationInDB(
         property_id=saved_reservation.property_id,
         status=saved_reservation.status,
         client_name=saved_reservation.client_name,
@@ -54,10 +58,10 @@ def create_reservation(reservation: ReservationBase) -> ReservationInDb:
 
 
 @router.put("/{reservation_id}", status_code=200)
-def update_reservation(reservation_id: int, reservation: ReservationBase) -> ReservationInDb:
+def update_reservation(reservation_id: int, reservation: ReservationBase) -> ReservationInDB:
     reservation_data[reservation_id] = reservation
     saved_reservation = reservation_data[reservation_id]
-    reservation_in_db = ReservationInDb(
+    reservation_in_db = ReservationInDB(
         property_id=saved_reservation.property_id,
         status=saved_reservation.status,
         client_name=saved_reservation.client_name,

@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from .api.v1 import properties, reservations
+from api_clickandgo.v1 import properties, reservations
 
 app = FastAPI()
 

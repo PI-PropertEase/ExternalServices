@@ -1,5 +1,6 @@
-from pydantic import BaseModel, validator
+from pydantic import BaseModel, validator, Field
 from datetime import datetime
+from uuid import uuid4, UUID
 
 class ReservationBase(BaseModel):
     property_id: int
@@ -15,6 +16,6 @@ class ReservationBase(BaseModel):
         if v <= values['arrival']:
             raise ValueError('Departure date must be after arrival date')
         return v
-
-class ReservationInDb(ReservationBase):
+    
+class ReservationInDB(ReservationBase):
     id: int

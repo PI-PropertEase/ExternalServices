@@ -1,6 +1,7 @@
 from fastapi import APIRouter
 from typing import Dict
-from app.schemas.property import PropertyBase, PropertyInDB
+from base_schemas.property import PropertyBase, PropertyInDB
+from threading import Lock
 
 data = {
     1: PropertyBase(name="Girassol", address="Rua 1234", status="Free", curr_price=140.00),
@@ -15,6 +16,7 @@ data = {
     10: PropertyBase(name="Spot Hostel", address="Rua 303132", status="Occupied", curr_price=90.00)
 }
 
+lock = Lock()
 
 router = APIRouter(
     prefix="/properties",
@@ -34,8 +36,9 @@ def get_property_by_id(property_id: int) -> PropertyBase:
 
 @router.post("/", status_code=201)
 def create_property(property: PropertyBase) -> PropertyInDB:
-    id = len(data)+1
-    data[id] = property
+    with lock:
+        id = len(data)+1
+        data[id] = property
     property_data = data[id]
     property_in_db = PropertyInDB(
         name=property_data.name,
