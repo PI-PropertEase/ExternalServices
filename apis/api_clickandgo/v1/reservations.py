@@ -52,7 +52,8 @@ def get_reservations_by_property_id(property_id: int) -> List[Reservation]:
 @router.post("/", status_code=201)
 def create_reservation(reservation: Reservation) -> ReservationInDB:
     with lock:
-        id = len(reservation_data)+1
+        last_id = list(reservation_data.keys())[-1]
+        id = last_id + 1
         reservation_data[id] = reservation
     saved_reservation = reservation_data[id]
     reservation_in_db = ReservationInDB(

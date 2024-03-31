@@ -37,7 +37,8 @@ def get_property_by_id(property_id: int) -> PropertyBase:
 @router.post("/", status_code=201)
 def create_property(property: PropertyBase) -> PropertyInDB:
     with lock:
-        id = len(data)+1
+        last_id = list(data.keys())[-1]
+        id = last_id + 1
         data[id] = property
     property_data = data[id]
     property_in_db = PropertyInDB(
