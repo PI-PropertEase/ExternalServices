@@ -1,6 +1,7 @@
 from fastapi import APIRouter
 from typing import Dict, List
 from base_schemas.reservation import ReservationBase, ReservationInDB
+from base_schemas.property import PropertyBase, PropertyInDB
 from datetime import datetime
 from threading import Lock
 
@@ -39,6 +40,20 @@ reservation_data = {
                         arrival=datetime(2024, 3, 29, 12, 0), departure=datetime(2024, 4, 1, 12, 0), cost=300.0)
 }
 
+data = {
+    1: PropertyBase(user_email="joedoe@gmail.com", name="Girassol", address="Rua 1234", status="Free", curr_price=140.00),
+    2: PropertyBase(user_email="alicez@gmail.com", name="Poente Azul", address="Rua 5678", status="Free", curr_price=24.00),
+    3: PropertyBase(user_email="alicez@gmail.com", name="Conforto e Bem Estar", address="Rua 91011", status="Free", curr_price=36.00),
+    4: PropertyBase(user_email="alicez@gmail.com", name="Flores e Amores", address="Rua 121314", status="Occupied", curr_price=24.00),
+    5: PropertyBase(user_email="alicez@gmail.com",name="São José Residences", address="Rua 151617", status="Free", curr_price=54.00),
+    6: PropertyBase(user_email="alicez@gmail.com", name="Residencial Aveiro", address="Rua 181920", status="Maintenance", curr_price=133.00),
+    7: PropertyBase(user_email="joedoe@gmail.com", name="Ponto8", address="Rua 212223", status="Free", curr_price=32.00),
+    8: PropertyBase(user_email="joedoe@gmail.com", name="Bom Lugar", address="Rua 242526", status="Cleaning", curr_price=130.00),
+    9: PropertyBase(user_email="joedoe@gmail.com", name="Hotel Miradouro", address="Rua 272829", status="Occupied", curr_price=30.00),
+    10: PropertyBase(user_email="joedoe@gmail.com", name="Spot Hostel", address="Rua 303132", status="Occupied", curr_price=90.00)
+}
+
+
 lock = Lock()
 
 router = APIRouter(
@@ -48,8 +63,9 @@ router = APIRouter(
 
 
 @router.get("/", status_code=200)
-def get_reservation_list() -> Dict[int, ReservationBase]:
-    return reservation_data
+def get_reservations_by_user(email: str) -> Dict[int, ReservationBase]:
+    properties_ids = [key for key, property_base in data.items() if property_base.user_email == email]
+    return {key: reservation for key, reservation in reservation_data.items() if reservation.property_id in properties_ids}
 
 
 @router.get("/{property_id}", status_code=200)
