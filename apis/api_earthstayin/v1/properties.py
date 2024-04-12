@@ -25,8 +25,8 @@ router = APIRouter(
 
 
 @router.get("/", status_code=200)
-def get_properties_by_user(email: str) -> Dict[int, PropertyBase]:
-    return {key: property_base for key, property_base in data.items() if property_base.user_email == email}
+def get_properties_by_user(email: str) -> list[PropertyBase]:
+    return [property_base for key, property_base in data.items() if property_base.user_email == email]
 
 
 @router.get("/{property_id}", status_code=200)
