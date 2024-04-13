@@ -4,16 +4,16 @@ from base_schemas.property import PropertyBase, PropertyInDB
 from threading import Lock
 
 data = {
-    1: PropertyInDB(id=1, user_email="joedoe@gmail.com", name="Girassol", address="Rua 1234", status="Free", curr_price=140.00),
-    2: PropertyInDB(id=2, user_email="alicez@gmail.com", name="Poente Azul", address="Rua 5678", status="Free", curr_price=24.00),
-    3: PropertyInDB(id=3, user_email="alicez@gmail.com", name="Conforto e Bem Estar", address="Rua 91011", status="Free", curr_price=36.00),
-    4: PropertyInDB(id=4, user_email="alicez@gmail.com", name="Flores e Amores", address="Rua 121314", status="Occupied", curr_price=24.00),
-    5: PropertyInDB(id=5, user_email="alicez@gmail.com",name="São José Residences", address="Rua 151617", status="Free", curr_price=54.00),
-    6: PropertyInDB(id=6, user_email="alicez@gmail.com", name="Residencial Aveiro", address="Rua 181920", status="Maintenance", curr_price=133.00),
-    7: PropertyInDB(id=7, user_email="joedoe@gmail.com", name="Ponto8", address="Rua 212223", status="Free", curr_price=32.00),
-    8: PropertyInDB(id=8, user_email="joedoe@gmail.com", name="Bom Lugar", address="Rua 242526", status="Cleaning", curr_price=130.00),
-    9: PropertyInDB(id=9, user_email="joedoe@gmail.com", name="Hotel Miradouro", address="Rua 272829", status="Occupied", curr_price=30.00),
-    10: PropertyInDB(id=10 ,user_email="joedoe@gmail.com", name="Spot Hostel", address="Rua 303132", status="Occupied", curr_price=90.00)
+    1: PropertyInDB(id=1, user_email="joedoe@gmail.com", name="Girassol", address="Rua 1234", curr_price=140.00),
+    2: PropertyInDB(id=2, user_email="alicez@gmail.com", name="Poente Azul", address="Rua 5678", curr_price=24.00),
+    3: PropertyInDB(id=3, user_email="alicez@gmail.com", name="Conforto e Bem Estar", address="Rua 91011", curr_price=36.00),
+    4: PropertyInDB(id=4, user_email="alicez@gmail.com", name="Flores e Amores", address="Rua 121314", curr_price=24.00),
+    5: PropertyInDB(id=5, user_email="alicez@gmail.com",name="São José Residences", address="Rua 151617", curr_price=54.00),
+    6: PropertyInDB(id=6, user_email="alicez@gmail.com", name="Residencial Aveiro", address="Rua 181920", curr_price=133.00),
+    7: PropertyInDB(id=7, user_email="joedoe@gmail.com", name="Ponto8", address="Rua 212223", curr_price=32.00),
+    8: PropertyInDB(id=8, user_email="joedoe@gmail.com", name="Bom Lugar", address="Rua 242526", curr_price=130.00),
+    9: PropertyInDB(id=9, user_email="joedoe@gmail.com", name="Hotel Miradouro", address="Rua 272829", curr_price=30.00),
+    10: PropertyInDB(id=10 ,user_email="joedoe@gmail.com", name="Spot Hostel", address="Rua 303132", curr_price=90.00)
 }
 
 lock = Lock()
