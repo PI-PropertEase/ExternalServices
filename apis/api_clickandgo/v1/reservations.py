@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from typing import List
-from api_clickandgo.schemas.reservation import Reservation, ReservationInDB
+from base_schemas.reservation import ReservationBase, ReservationInDB
 from datetime import datetime
 from threading import Lock
 from api_clickandgo.v1.properties import data
@@ -50,7 +50,7 @@ def get_reservations_by_property_id(property_id: int) -> List[ReservationInDB]:
 
 
 @router.post("", status_code=201)
-def create_reservation(reservation: Reservation) -> ReservationInDB:
+def create_reservation(reservation: ReservationBase) -> ReservationInDB:
     with lock:
         last_id = list(reservation_data.keys())[-1]
         id = last_id + 1
@@ -71,7 +71,7 @@ def create_reservation(reservation: Reservation) -> ReservationInDB:
 
 
 @router.put("/{reservation_id}", status_code=200)
-def update_reservation(reservation_id: int, reservation: Reservation) -> ReservationInDB:
+def update_reservation(reservation_id: int, reservation: ReservationBase) -> ReservationInDB:
     reservation_in_db = ReservationInDB(
         property_id=reservation.property_id,
         status=reservation.status,
