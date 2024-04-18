@@ -9,6 +9,7 @@ from .earthstayin_schemas import (
     EarthStayinBedroom,
     EarthStayinBedType,
     EarthStayinAmenity,
+    EarthStayinHouseRules
 )
 
 data = {
@@ -46,6 +47,13 @@ data = {
         ],
         accessibilities=["elevator", "ramp"],
         additional_info="Rebuçados grátis.",
+        house_rules=EarthStayinHouseRules(
+            checkin_time="15:00-23:59",
+            checkout_time="00:00-11:00",
+            smoking_allowed=False,
+            rest_time="23:00",
+            pets_allowed=False
+        )
     ),
     2: EarthStayinPropertyInDB(
         id=2,
@@ -74,6 +82,13 @@ data = {
         ],
         accessibilities=[],
         additional_info="Um rebuçado por cada hóspede.",
+        house_rules=EarthStayinHouseRules(
+            checkin_time="14:00-23:59",
+            checkout_time="00:00-10:30",
+            smoking_allowed=True,
+            rest_time="22:00",
+            pets_allowed=False
+        )
     ),
     3: EarthStayinPropertyInDB(
         id=3,
@@ -102,6 +117,13 @@ data = {
         ],
         amenities=[EarthStayinAmenity.AC, EarthStayinAmenity.WIFI],
         additional_info="Recebem um rebuçado",
+        house_rules=EarthStayinHouseRules(
+            checkin_time="14:30-23:59",
+            checkout_time="00:00-11:30",
+            smoking_allowed=True,
+            rest_time="22:30",
+            pets_allowed=True
+        )
     ),
     4: EarthStayinPropertyInDB(
         id=4,
@@ -131,6 +153,13 @@ data = {
             EarthStayinAmenity.OPEN_PARKING,
         ],
         additional_info="Se cá aparecerem, recebem um rebuçado",
+        house_rules=EarthStayinHouseRules(
+            checkin_time="14:45-23:59",
+            checkout_time="00:00-11:15",
+            smoking_allowed=False,
+            rest_time="23:00",
+            pets_allowed=False
+        )
     ),
     5: EarthStayinPropertyInDB(
         id=5,
@@ -156,6 +185,13 @@ data = {
         ],
         amenities=[EarthStayinAmenity.AC, EarthStayinAmenity.WIFI],
         additional_info="Se cá aparecerem, recebem um rebuçado",
+        house_rules=EarthStayinHouseRules(
+            checkin_time="14:30-23:59",
+            checkout_time="00:00-11:30",
+            smoking_allowed=True,
+            rest_time="22:00",
+            pets_allowed=False
+        )
     ),
     6: EarthStayinPropertyInDB(
         id=6,
@@ -185,6 +221,13 @@ data = {
         ],
         amenities=[EarthStayinAmenity.AC, EarthStayinAmenity.WIFI],
         additional_info="Rebuçados.",
+        house_rules=EarthStayinHouseRules(
+            checkin_time="13:30-23:59",
+            checkout_time="00:00-10:30",
+            smoking_allowed=True,
+            rest_time="22:00",
+            pets_allowed=True
+        )
     ),
     7: EarthStayinPropertyInDB(
         id=7,
@@ -210,6 +253,13 @@ data = {
         ],
         amenities=[EarthStayinAmenity.AC, EarthStayinAmenity.WIFI],
         additional_info="Se cá aparecerem, recebem um rebuçado",
+        house_rules=EarthStayinHouseRules(
+            checkin_time="14:30-23:59",
+            checkout_time="00:00-11:00",
+            smoking_allowed=True,
+            rest_time="23:00",
+            pets_allowed=True
+        )
     ),
     8: EarthStayinPropertyInDB(
         id=8,
@@ -235,6 +285,13 @@ data = {
         ],
         amenities=[EarthStayinAmenity.AC, EarthStayinAmenity.WIFI],
         additional_info="Se cá aparecerem, recebem um rebuçado",
+        house_rules=EarthStayinHouseRules(
+            checkin_time="15:00-23:59",
+            checkout_time="00:00-11:30",
+            smoking_allowed=False,
+            rest_time="22:30",
+            pets_allowed=False
+        )
     ),
     9: EarthStayinPropertyInDB(
         id=9,
@@ -260,6 +317,13 @@ data = {
         ],
         amenities=[EarthStayinAmenity.AC, EarthStayinAmenity.WIFI],
         additional_info="Pode levar rebuçados para casa",
+        house_rules=EarthStayinHouseRules(
+            checkin_time="14:30-23:59",
+            checkout_time="00:00-11:00",
+            smoking_allowed=False,
+            rest_time="22:30",
+            pets_allowed=False
+        )
     ),
     10: EarthStayinPropertyInDB(
         id=10,
@@ -285,6 +349,13 @@ data = {
         ],
         amenities=[EarthStayinAmenity.AC, EarthStayinAmenity.WIFI],
         additional_info="Olha os rebuçados!",
+        house_rules=EarthStayinHouseRules(
+            checkin_time="14:30-23:59",
+            checkout_time="00:00-11:00",
+            smoking_allowed=True,
+            rest_time="23:30",
+            pets_allowed=False
+        )
     ),
 }
 
@@ -321,6 +392,7 @@ def create_property(property_data: EarthStayinPropertyBase) -> EarthStayinProper
             amenities=property_data.amenities,
             accessibilities=property_data.accessibilities,
             additional_info=property_data.additional_info,
+            house_rules=property_data.house_rules,
             id=id,
         )
         data[id] = property_in_db
@@ -345,6 +417,7 @@ def update_property(
             amenities=property_data.amenities,
             accessibilities=property_data.accessibilities,
             additional_info=property_data.additional_info,
+            house_rules=property_data.house_rules,
             id=property_id,
     )
     data[property_id] = updated_property

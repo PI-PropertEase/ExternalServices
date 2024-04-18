@@ -28,6 +28,13 @@ class EarthStayinBathroom(BaseModel):
     name: str
     bathroom_fixtures: list[EarthStayinBathroomFixtures]
 
+class EarthStayinHouseRules(BaseModel):
+    checkin_time: str
+    checkout_time: str
+    smoking_allowed: bool
+    rest_time: str
+    pets_allowed: bool
+
 class EarthStayinPropertyBase(PropertyBase):
     description: str
     number_of_guests: int
@@ -37,6 +44,7 @@ class EarthStayinPropertyBase(PropertyBase):
     amenities: list[EarthStayinAmenity]
     accessibilities: list[str]
     additional_info: str
+    house_rules: EarthStayinHouseRules
 
 class EarthStayinPropertyInDB(EarthStayinPropertyBase):
     id: int
