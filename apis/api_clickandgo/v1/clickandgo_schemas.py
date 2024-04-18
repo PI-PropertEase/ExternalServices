@@ -32,6 +32,14 @@ class CNGUser(BaseModel):
     phone_number: str
     languages: list[str]
 
+class CNGHouseRules(BaseModel):
+    check_in: str # string in format "00:00-10:00" (2 hours separated by hifen)
+    check_out: str
+    smoking_allowed: bool
+    parties_allowed: bool
+    rest_time: str
+    pets_allowed: bool
+
 class CNGPropertyBase(PropertyBase):
     description: str
     guest_num: int
@@ -39,6 +47,7 @@ class CNGPropertyBase(PropertyBase):
     bedrooms: list[CNGBedroom]
     bathrooms: list[CNGBathroom]
     available_amenities: list[CNGAmenity]
+    house_rules: CNGHouseRules
     additional_info: str
     cancellation_policy: str
     house_manager: CNGUser

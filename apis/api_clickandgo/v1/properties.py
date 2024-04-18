@@ -8,7 +8,8 @@ from .clickandgo_schemas import (
     CNGBathroom,
     CNGBathroomFixtures,
     CNGAmenity,
-    CNGUser
+    CNGUser,
+    CNGHouseRules
 )
 from threading import Lock
 
@@ -37,6 +38,7 @@ data = {
         available_amenities=[
             CNGAmenity.AC, CNGAmenity.WIFI_FREE
         ],
+        house_rules=CNGHouseRules(check_in="16:00-23:59", check_out="00:00-10:00", smoking_allowed=False, parties_allowed=True, rest_time="22:00-08:00", pets_allowed=True),
         additional_info="Somos fixes",
         cancellation_policy="Não há reembolsos",
         house_manager=CNGUser(
@@ -67,6 +69,7 @@ data = {
         available_amenities=[
             CNGAmenity.AC, CNGAmenity.PATIO, CNGAmenity.WIFI_FREE
         ],
+        house_rules=CNGHouseRules(check_in="16:00-23:59", check_out="00:00-10:00", smoking_allowed=False, parties_allowed=True, rest_time="22:00-08:00", pets_allowed=True),
         additional_info="Somos fixes",
         cancellation_policy="Não há reembolsos",
         house_manager=CNGUser(
@@ -103,6 +106,7 @@ data = {
         available_amenities=[
             CNGAmenity.PARKING, CNGAmenity.AC, CNGAmenity.WIFI_FREE
         ],
+        house_rules=CNGHouseRules(check_in="16:00-23:59", check_out="00:00-10:00", smoking_allowed=False, parties_allowed=True, rest_time="22:00-08:00", pets_allowed=True),
         additional_info="Somos fixes",
         cancellation_policy="Não há reembolsos",
         house_manager=CNGUser(
@@ -134,6 +138,7 @@ data = {
         available_amenities=[
             CNGAmenity.PARKING, CNGAmenity.AC, CNGAmenity.WIFI_FREE
         ],
+        house_rules=CNGHouseRules(check_in="16:00-23:59", check_out="00:00-10:00", smoking_allowed=False, parties_allowed=True, rest_time="22:00-08:00", pets_allowed=True),
         additional_info="Somos fixes",
         cancellation_policy="Não há reembolsos",
         house_manager=CNGUser(
@@ -165,6 +170,7 @@ data = {
         available_amenities=[
             CNGAmenity.PARKING, CNGAmenity.AC, CNGAmenity.WIFI_FREE
         ],
+        house_rules=CNGHouseRules(check_in="16:00-23:59", check_out="00:00-10:00", smoking_allowed=False, parties_allowed=True, rest_time="22:00-08:00", pets_allowed=True),
         additional_info="Somos fixes",
         cancellation_policy="Não há reembolsos",
         house_manager=CNGUser(
@@ -201,6 +207,7 @@ data = {
         available_amenities=[
             CNGAmenity.PARKING, CNGAmenity.AC, CNGAmenity.WIFI_FREE
         ],
+        house_rules=CNGHouseRules(check_in="16:00-23:59", check_out="00:00-10:00", smoking_allowed=False, parties_allowed=True, rest_time="22:00-08:00", pets_allowed=True),
         additional_info="Somos fixes",
         cancellation_policy="Não há reembolsos",
         house_manager=CNGUser(
@@ -232,6 +239,7 @@ data = {
         available_amenities=[
             CNGAmenity.PARKING, CNGAmenity.AC, CNGAmenity.WIFI_FREE
         ],
+        house_rules=CNGHouseRules(check_in="16:00-23:59", check_out="00:00-10:00", smoking_allowed=False, parties_allowed=True, rest_time="22:00-08:00", pets_allowed=True),
         additional_info="Somos fixes",
         cancellation_policy="Não há reembolsos",
         house_manager=CNGUser(
@@ -262,6 +270,7 @@ data = {
         available_amenities=[
             CNGAmenity.PARKING, CNGAmenity.AC, CNGAmenity.WIFI_FREE
         ],
+        house_rules=CNGHouseRules(check_in="16:00-23:59", check_out="00:00-10:00", smoking_allowed=False, parties_allowed=True, rest_time="22:00-08:00", pets_allowed=True),
         additional_info="Somos fixes",
         cancellation_policy="Não há reembolsos",
         house_manager=CNGUser(
@@ -292,6 +301,7 @@ data = {
         available_amenities=[
             CNGAmenity.PARKING, CNGAmenity.AC, CNGAmenity.WIFI_FREE
         ],
+        house_rules=CNGHouseRules(check_in="16:00-23:59", check_out="00:00-10:00", smoking_allowed=False, parties_allowed=True, rest_time="22:00-08:00", pets_allowed=True),
         additional_info="Somos fixes",
         cancellation_policy="Não há reembolsos",
         house_manager=CNGUser(
@@ -325,6 +335,7 @@ data = {
         available_amenities=[
             CNGAmenity.PARKING, CNGAmenity.AC, CNGAmenity.WIFI_FREE
         ],
+        house_rules=CNGHouseRules(check_in="16:00-23:59", check_out="00:00-10:00", smoking_allowed=False, parties_allowed=True, rest_time="22:00-08:00", pets_allowed=True),
         additional_info="Somos fixes",
         cancellation_policy="Não há reembolsos",
         house_manager=CNGUser(
@@ -366,6 +377,7 @@ def create_property(property_data: CNGPropertyBase) -> CNGPropertyInDB:
             bedrooms=property_data.bedrooms,
             bathrooms=property_data.bathrooms,
             available_amenities=property_data.available_amenities,
+            house_rules=property_data.house_rules,
             additional_info=property_data.additional_info,
             cancellation_policy=property_data.cancellation_policy,
             house_manager=property_data.house_manager,
@@ -389,6 +401,7 @@ def update_property(property_id: int, property_data: CNGPropertyBase) -> CNGProp
         bedrooms=property_data.bedrooms,
         bathrooms=property_data.bathrooms,
         available_amenities=property_data.available_amenities,
+        house_rules=property_data.house_rules,
         additional_info=property_data.additional_info,
         cancellation_policy=property_data.cancellation_policy,
         house_manager=property_data.house_manager,
