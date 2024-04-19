@@ -9,7 +9,7 @@ from .earthstayin_schemas import (
     EarthStayinBedroom,
     EarthStayinBedType,
     EarthStayinAmenity,
-    EarthStayinHouseRules
+    EarthStayinHouseRules,
 )
 
 data = {
@@ -22,10 +22,16 @@ data = {
         description="Tem muita luz natural e é muito confortável",
         number_of_guests=4,
         square_meters=2000,
-        bedrooms=[
-            EarthStayinBedroom(number_beds=2, bed_type=EarthStayinBedType.SINGLE_BED),
-            EarthStayinBedroom(number_beds=1, bed_type=EarthStayinBedType.QUEEN_BED),
-        ],
+        bedrooms={
+            "bedroom_1": [
+                EarthStayinBedroom(
+                    number_beds=2, bed_type=EarthStayinBedType.SINGLE_BED
+                )
+            ],
+            "bedroom_2": [
+                EarthStayinBedroom(number_beds=1, bed_type=EarthStayinBedType.QUEEN_BED)
+            ],
+        },
         bathrooms=[
             EarthStayinBathroom(
                 name="bathroom_groundfloor",
@@ -52,8 +58,8 @@ data = {
             checkout_time="00:00-11:00",
             smoking_allowed=False,
             rest_time="23:00",
-            pets_allowed=False
-        )
+            pets_allowed=False,
+        ),
     ),
     2: EarthStayinPropertyInDB(
         id=2,
@@ -64,9 +70,11 @@ data = {
         description="A casa mais azul do bairro, desde 1999",
         number_of_guests=4,
         square_meters=2000,
-        bedrooms=[
-            EarthStayinBedroom(number_beds=2, bed_type=EarthStayinBedType.KING_BED),
-        ],
+        bedrooms={
+            "bedroom_1": [
+                EarthStayinBedroom(number_beds=2, bed_type=EarthStayinBedType.KING_BED),
+            ]
+        },
         bathrooms=[
             EarthStayinBathroom(
                 name="bathroom_groundfloor",
@@ -87,8 +95,8 @@ data = {
             checkout_time="00:00-10:30",
             smoking_allowed=True,
             rest_time="22:00",
-            pets_allowed=False
-        )
+            pets_allowed=False,
+        ),
     ),
     3: EarthStayinPropertyInDB(
         id=3,
@@ -100,12 +108,24 @@ data = {
         description="A residência mais confortável",
         number_of_guests=4,
         square_meters=2000,
-        bedrooms=[
-            EarthStayinBedroom(number_beds=1, bed_type=EarthStayinBedType.SINGLE_BED),
-            EarthStayinBedroom(number_beds=1, bed_type=EarthStayinBedType.SINGLE_BED),
-            EarthStayinBedroom(number_beds=1, bed_type=EarthStayinBedType.SINGLE_BED),
-            EarthStayinBedroom(number_beds=1, bed_type=EarthStayinBedType.SINGLE_BED),
-        ],
+        bedrooms={
+            "bedroom_1": [
+                EarthStayinBedroom(
+                    number_beds=1, bed_type=EarthStayinBedType.SINGLE_BED
+                ),
+                EarthStayinBedroom(
+                    number_beds=1, bed_type=EarthStayinBedType.SINGLE_BED
+                ),
+            ],
+            "bedroom_2": [
+                EarthStayinBedroom(
+                    number_beds=1, bed_type=EarthStayinBedType.SINGLE_BED
+                ),
+                EarthStayinBedroom(
+                    number_beds=1, bed_type=EarthStayinBedType.SINGLE_BED
+                ),
+            ],
+        },
         bathrooms=[
             EarthStayinBathroom(
                 name="bathroom_groundfloor",
@@ -122,8 +142,8 @@ data = {
             checkout_time="00:00-11:30",
             smoking_allowed=True,
             rest_time="22:30",
-            pets_allowed=True
-        )
+            pets_allowed=True,
+        ),
     ),
     4: EarthStayinPropertyInDB(
         id=4,
@@ -135,9 +155,11 @@ data = {
         description="Tem um jardim bonito",
         number_of_guests=4,
         square_meters=2000,
-        bedrooms=[
-            EarthStayinBedroom(number_beds=2, bed_type=EarthStayinBedType.KING_BED)
-        ],
+        bedrooms={
+            "bedroom_1": [
+                EarthStayinBedroom(number_beds=2, bed_type=EarthStayinBedType.KING_BED)
+            ]
+        },
         bathrooms=[
             EarthStayinBathroom(
                 name="bathroom_firstfloor",
@@ -158,8 +180,8 @@ data = {
             checkout_time="00:00-11:15",
             smoking_allowed=False,
             rest_time="23:00",
-            pets_allowed=False
-        )
+            pets_allowed=False,
+        ),
     ),
     5: EarthStayinPropertyInDB(
         id=5,
@@ -171,9 +193,13 @@ data = {
         description="",
         number_of_guests=4,
         square_meters=2000,
-        bedrooms=[
-            EarthStayinBedroom(number_beds=4, bed_type=EarthStayinBedType.SINGLE_BED)
-        ],
+        bedrooms={
+            "bedroom_1": [
+                EarthStayinBedroom(
+                    number_beds=4, bed_type=EarthStayinBedType.SINGLE_BED
+                )
+            ]
+        },
         bathrooms=[
             EarthStayinBathroom(
                 name="bathroom_groundfloor",
@@ -190,8 +216,8 @@ data = {
             checkout_time="00:00-11:30",
             smoking_allowed=True,
             rest_time="22:00",
-            pets_allowed=False
-        )
+            pets_allowed=False,
+        ),
     ),
     6: EarthStayinPropertyInDB(
         id=6,
@@ -203,19 +229,29 @@ data = {
         description="Nao é em Braga",
         number_of_guests=4,
         square_meters=2000,
-        bedrooms=[
-            EarthStayinBedroom(number_beds=1, bed_type=EarthStayinBedType.SINGLE_BED),
-            EarthStayinBedroom(number_beds=1, bed_type=EarthStayinBedType.SINGLE_BED),
-            EarthStayinBedroom(number_beds=1, bed_type=EarthStayinBedType.SINGLE_BED),
-            EarthStayinBedroom(number_beds=1, bed_type=EarthStayinBedType.TWIN_BED),
-        ],
+        bedrooms={
+            "bedroom_1": [
+                EarthStayinBedroom(
+                    number_beds=1, bed_type=EarthStayinBedType.SINGLE_BED
+                ),
+                EarthStayinBedroom(
+                    number_beds=1, bed_type=EarthStayinBedType.SINGLE_BED
+                ),
+            ],
+            "bedroom_2": [
+                EarthStayinBedroom(
+                    number_beds=1, bed_type=EarthStayinBedType.SINGLE_BED
+                ),
+                EarthStayinBedroom(number_beds=1, bed_type=EarthStayinBedType.TWIN_BED),
+            ],
+        },
         bathrooms=[
             EarthStayinBathroom(
                 name="bathroom_groundfloor",
                 bathroom_fixtures=[
                     EarthStayinBathroomFixtures.TOILET,
                     EarthStayinBathroomFixtures.TUB,
-                    EarthStayinBathroomFixtures.BIDET
+                    EarthStayinBathroomFixtures.BIDET,
                 ],
             ),
         ],
@@ -226,8 +262,8 @@ data = {
             checkout_time="00:00-10:30",
             smoking_allowed=True,
             rest_time="22:00",
-            pets_allowed=True
-        )
+            pets_allowed=True,
+        ),
     ),
     7: EarthStayinPropertyInDB(
         id=7,
@@ -239,9 +275,11 @@ data = {
         description=".8",
         number_of_guests=4,
         square_meters=2000,
-        bedrooms=[
-            EarthStayinBedroom(number_beds=2, bed_type=EarthStayinBedType.KING_BED)
-        ],
+        bedrooms={
+            "bedroom_1": [
+                EarthStayinBedroom(number_beds=2, bed_type=EarthStayinBedType.KING_BED)
+            ]
+        },
         bathrooms=[
             EarthStayinBathroom(
                 name="bathroom_groundfloor",
@@ -258,8 +296,8 @@ data = {
             checkout_time="00:00-11:00",
             smoking_allowed=True,
             rest_time="23:00",
-            pets_allowed=True
-        )
+            pets_allowed=True,
+        ),
     ),
     8: EarthStayinPropertyInDB(
         id=8,
@@ -271,9 +309,13 @@ data = {
         description="O nome desta casa nao é nenhuma mentira",
         number_of_guests=4,
         square_meters=2000,
-        bedrooms=[
-            EarthStayinBedroom(number_beds=4, bed_type=EarthStayinBedType.SINGLE_BED)
-        ],
+        bedrooms={
+            "bedroom_1": [
+                EarthStayinBedroom(
+                    number_beds=4, bed_type=EarthStayinBedType.SINGLE_BED
+                )
+            ]
+        },
         bathrooms=[
             EarthStayinBathroom(
                 name="bathroom_groundfloor",
@@ -290,8 +332,8 @@ data = {
             checkout_time="00:00-11:30",
             smoking_allowed=False,
             rest_time="22:30",
-            pets_allowed=False
-        )
+            pets_allowed=False,
+        ),
     ),
     9: EarthStayinPropertyInDB(
         id=9,
@@ -303,9 +345,13 @@ data = {
         description="Tem uma excelente vista",
         number_of_guests=4,
         square_meters=2000,
-        bedrooms=[
-            EarthStayinBedroom(number_beds=4, bed_type=EarthStayinBedType.SINGLE_BED)
-        ],
+        bedrooms={
+            "bedroom_1": [
+                EarthStayinBedroom(
+                    number_beds=4, bed_type=EarthStayinBedType.SINGLE_BED
+                )
+            ]
+        },
         bathrooms=[
             EarthStayinBathroom(
                 name="bathroom_groundfloor",
@@ -322,8 +368,8 @@ data = {
             checkout_time="00:00-11:00",
             smoking_allowed=False,
             rest_time="22:30",
-            pets_allowed=False
-        )
+            pets_allowed=False,
+        ),
     ),
     10: EarthStayinPropertyInDB(
         id=10,
@@ -335,9 +381,13 @@ data = {
         description="Provavelmente vais dormir num quarto com 10 pessoas",
         number_of_guests=4,
         square_meters=2000,
-        bedrooms=[
-            EarthStayinBedroom(number_beds=4, bed_type=EarthStayinBedType.SINGLE_BED)
-        ],
+        bedrooms={
+            "bedroom_1": [
+                EarthStayinBedroom(
+                    number_beds=4, bed_type=EarthStayinBedType.SINGLE_BED
+                )
+            ]
+        },
         bathrooms=[
             EarthStayinBathroom(
                 name="bathroom_groundfloor",
@@ -354,8 +404,8 @@ data = {
             checkout_time="00:00-11:00",
             smoking_allowed=True,
             rest_time="23:30",
-            pets_allowed=False
-        )
+            pets_allowed=False,
+        ),
     ),
 }
 
@@ -405,20 +455,20 @@ def update_property(
     property_id: int, property_data: EarthStayinPropertyBase
 ) -> EarthStayinPropertyInDB:
     updated_property = EarthStayinPropertyInDB(
-            user_email=property_data.user_email,
-            name=property_data.name,
-            address=property_data.address,
-            curr_price=property_data.curr_price,
-            description=property_data.description,
-            number_of_guests=property_data.number_of_guests,
-            square_meters=property_data.square_meters,
-            bedrooms=property_data.bedrooms,
-            bathrooms=property_data.bathrooms,
-            amenities=property_data.amenities,
-            accessibilities=property_data.accessibilities,
-            additional_info=property_data.additional_info,
-            house_rules=property_data.house_rules,
-            id=property_id,
+        user_email=property_data.user_email,
+        name=property_data.name,
+        address=property_data.address,
+        curr_price=property_data.curr_price,
+        description=property_data.description,
+        number_of_guests=property_data.number_of_guests,
+        square_meters=property_data.square_meters,
+        bedrooms=property_data.bedrooms,
+        bathrooms=property_data.bathrooms,
+        amenities=property_data.amenities,
+        accessibilities=property_data.accessibilities,
+        additional_info=property_data.additional_info,
+        house_rules=property_data.house_rules,
+        id=property_id,
     )
     data[property_id] = updated_property
     saved_property = data[property_id]

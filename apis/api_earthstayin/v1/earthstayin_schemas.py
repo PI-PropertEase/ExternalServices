@@ -39,7 +39,7 @@ class EarthStayinPropertyBase(PropertyBase):
     description: str
     number_of_guests: int
     square_meters: int
-    bedrooms: list[EarthStayinBedroom]
+    bedrooms: dict[str, list[EarthStayinBedroom]]
     bathrooms: list[EarthStayinBathroom]
     amenities: list[EarthStayinAmenity]
     accessibilities: list[str]

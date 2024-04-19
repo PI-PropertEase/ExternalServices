@@ -44,7 +44,7 @@ class CNGPropertyBase(PropertyBase):
     description: str
     guest_num: int
     house_area: int
-    bedrooms: list[CNGBedroom]
+    bedrooms: dict[str, list[CNGBedroom]]
     bathrooms: list[CNGBathroom]
     available_amenities: list[CNGAmenity]
     house_rules: CNGHouseRules

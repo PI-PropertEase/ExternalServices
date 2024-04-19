@@ -37,7 +37,7 @@ class ZookingPropertyBase(PropertyBase):
     description: str
     number_of_guests: int
     square_meters: int
-    bedrooms: list[ZookingBedroom]
+    bedrooms: dict[str, list[ZookingBedroom]]
     bathrooms: list[ZookingBathroom]
     amenities: list[ZookingAmenity]
     additional_info: str
@@ -47,7 +47,7 @@ class ZookingPropertyBaseUpdate(PropertyBaseUpdate):
     description: Optional[str]
     number_of_guests: Optional[int]
     square_meters: Optional[int]
-    bedrooms: Optional[list[ZookingBedroom]]
+    bedrooms: Optional[dict [str, list[ZookingBedroom]]]
     bathrooms: Optional[list[ZookingBathroom]]
     amenities: Optional[list[ZookingAmenity]]
     additional_info: Optional[str]
