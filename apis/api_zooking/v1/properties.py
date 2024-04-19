@@ -8,7 +8,7 @@ from .zooking_schemas import (
     ZookingBathroom,
     ZookingBathroomFixtures,
     ZookingAmenity,
-    ZookingPropertyBase
+    ZookingPropertyBase, ZookingPropertyBaseUpdate
 )
 from threading import Lock
 
@@ -294,7 +294,11 @@ def create_property(property_data: ZookingPropertyBase) -> ZookingPropertyInDB:
 
 
 @router.put("/{property_id}", status_code=200)
-def update_property(property_id: int, property_data: ZookingPropertyBase) -> ZookingPropertyInDB:
+def update_property(property_id: int, property_data: ZookingPropertyBaseUpdate) -> ZookingPropertyInDB:
+    property_to_update = data[property_id]
+
+    print("property_to_update", property_to_update)
+
     updated_property = ZookingPropertyInDB(
             user_email=property_data.user_email,
             name=property_data.name,
