@@ -336,8 +336,10 @@ def create_property(property_data: ZookingPropertyBase) -> ZookingPropertyInDB:
 
 @router.put("/{property_id}", status_code=200)
 def update_property(property_id: int, property_data: ZookingPropertyBaseUpdate) -> ZookingPropertyInDB:
+    if not (property_to_update := data.get(property_id)):
+        raise HTTPException(status_code=404, detail="Property doesn't exist")
     update_parameters = {field_name: field_value for field_name, field_value in property_data if field_value is not None}
-    updated_property = data[property_id].model_copy(update=update_parameters)
+    updated_property = property_to_update.model_copy(update=update_parameters)
     data[property_id] = updated_property
     return updated_property
 
