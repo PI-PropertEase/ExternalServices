@@ -335,30 +335,11 @@ def create_property(property_data: ZookingPropertyBase) -> ZookingPropertyInDB:
 
 
 @router.put("/{property_id}", status_code=200)
-def update_property(
-    property_id: int, property_data: ZookingPropertyBaseUpdate
-) -> ZookingPropertyInDB:
-    property_to_update = data[property_id]
-
-    print("property_to_update", property_to_update)
-
-    updated_property = ZookingPropertyInDB(
-        user_email=property_data.user_email,
-        name=property_data.name,
-        address=property_data.address,
-        curr_price=property_data.curr_price,
-        description=property_data.description,
-        number_of_guests=property_data.number_of_guests,
-        square_meters=property_data.square_meters,
-        bedrooms=property_data.bedrooms,
-        bathrooms=property_data.bathrooms,
-        amenities=property_data.amenities,
-        additional_info=property_data.additional_info,
-        id=property_id,
-    )
+def update_property(property_id: int, property_data: ZookingPropertyBaseUpdate) -> ZookingPropertyInDB:
+    update_parameters = {field_name: field_value for field_name, field_value in property_data if field_value is not None}
+    updated_property = data[property_id].model_copy(update=update_parameters)
     data[property_id] = updated_property
-    saved_property = data[property_id]
-    return saved_property
+    return updated_property
 
 
 @router.delete("/{property_id}", status_code=200)

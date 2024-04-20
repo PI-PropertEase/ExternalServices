@@ -44,13 +44,13 @@ class ZookingPropertyBase(PropertyBase):
 
 
 class ZookingPropertyBaseUpdate(PropertyBaseUpdate):
-    description: Optional[str]
-    number_of_guests: Optional[int]
-    square_meters: Optional[int]
-    bedrooms: Optional[dict [str, list[ZookingBedroom]]]
-    bathrooms: Optional[list[ZookingBathroom]]
-    amenities: Optional[list[ZookingAmenity]]
-    additional_info: Optional[str]
+    description: Optional[str] = None
+    number_of_guests: Optional[int] = None
+    square_meters: Optional[int] = None
+    bedrooms: Optional[dict[str, list[ZookingBedroom]]] = None
+    bathrooms: Optional[list[ZookingBathroom]] = None
+    amenities: Optional[list[ZookingAmenity]] = None
+    additional_info: Optional[str] = None
 
 
 class ZookingPropertyInDB(ZookingPropertyBase):
