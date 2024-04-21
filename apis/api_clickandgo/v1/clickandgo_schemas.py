@@ -1,5 +1,7 @@
 from enum import Enum
-from base_schemas.property import PropertyBase
+from typing import Optional
+
+from base_schemas.property import PropertyBase, PropertyBaseUpdate
 from pydantic import BaseModel
 
 
@@ -9,36 +11,43 @@ class CNGAmenity(str, Enum):
     AC = "AC"
     PATIO = "patio"
 
+
 class CNGBedType(str, Enum):
     QUEEN = "queen"
     KING = "king"
     SINGLE = "single"
     TWIN = "twin"
 
+
 class CNGBedroom(BaseModel):
     number_beds: int
     bed_type: CNGBedType
+
 
 class CNGBathroomFixtures(str, Enum):
     TUB = "tub"
     SHOWER = "shower"
     TOILET = "toilet"
 
+
 class CNGBathroom(BaseModel):
     bathroom_fixtures: list[CNGBathroomFixtures]
+
 
 class CNGUser(BaseModel):
     name: str
     phone_number: str
     languages: list[str]
 
+
 class CNGHouseRules(BaseModel):
-    check_in: str # string in format "00:00-10:00" (2 hours separated by hifen)
+    check_in: str  # string in format "00:00-10:00" (2 hours separated by hifen)
     check_out: str
     smoking_allowed: bool
     parties_allowed: bool
     rest_time: str
     pets_allowed: bool
+
 
 class CNGPropertyBase(PropertyBase):
     description: str
@@ -51,6 +60,20 @@ class CNGPropertyBase(PropertyBase):
     additional_info: str
     cancellation_policy: str
     house_manager: CNGUser
+
+
+class CNGPropertyBaseUpdate(PropertyBaseUpdate):
+    description: Optional[str] = None
+    guest_num: Optional[int]
+    house_area: Optional[int]
+    bedrooms: Optional[dict[str, list[CNGBedroom]]] = None
+    bathrooms: Optional[list[CNGBathroom]] = None
+    available_amenities: Optional[list[CNGAmenity]] = None
+    house_rules: Optional[CNGHouseRules] = None
+    additional_info: Optional[str] = None
+    cancellation_policy: Optional[str] = None
+    house_manager: Optional[CNGUser] = None
+
 
 class CNGPropertyInDB(CNGPropertyBase):
     id: int

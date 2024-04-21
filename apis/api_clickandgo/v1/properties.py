@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from typing import List
 from .clickandgo_schemas import (
     CNGPropertyBase,
@@ -9,7 +9,7 @@ from .clickandgo_schemas import (
     CNGBathroomFixtures,
     CNGAmenity,
     CNGUser,
-    CNGHouseRules,
+    CNGHouseRules, CNGPropertyBaseUpdate,
 )
 from threading import Lock
 
@@ -446,29 +446,13 @@ def create_property(property_data: CNGPropertyBase) -> CNGPropertyInDB:
 
 
 @router.put("/{property_id}", status_code=200)
-def update_property(
-    property_id: int, property_data: CNGPropertyBase
-) -> CNGPropertyInDB:
-    updated_property = CNGPropertyInDB(
-        user_email=property_data.user_email,
-        name=property_data.name,
-        address=property_data.address,
-        curr_price=property_data.curr_price,
-        description=property_data.description,
-        guest_num=property_data.guest_num,
-        house_area=property_data.house_area,
-        bedrooms=property_data.bedrooms,
-        bathrooms=property_data.bathrooms,
-        available_amenities=property_data.available_amenities,
-        house_rules=property_data.house_rules,
-        additional_info=property_data.additional_info,
-        cancellation_policy=property_data.cancellation_policy,
-        house_manager=property_data.house_manager,
-        id=property_id,
-    )
+def update_property(property_id: int, property_data: CNGPropertyBaseUpdate) -> CNGPropertyInDB:
+    if not (property_to_update := data.get(property_id)):
+        raise HTTPException(status_code=404, detail="Property doesn't exist")
+    update_parameters = {field_name: field_value for field_name, field_value in property_data if field_value is not None}
+    updated_property = property_to_update.model_copy(update=update_parameters)
     data[property_id] = updated_property
-    saved_property = data[property_id]
-    return saved_property
+    return updated_property
 
 
 @router.delete("/{property_id}", status_code=200)
