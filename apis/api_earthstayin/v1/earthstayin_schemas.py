@@ -1,5 +1,7 @@
 from enum import Enum
-from base_schemas.property import PropertyBase
+from typing import Optional
+
+from base_schemas.property import PropertyBase, PropertyBaseUpdate
 from pydantic import BaseModel
 
 
@@ -8,15 +10,18 @@ class EarthStayinAmenity(str, Enum):
     OPEN_PARKING = "car_parking"
     AC = "AC"
 
+
 class EarthStayinBedType(str, Enum):
     QUEEN_BED = "queen_bed"
     KING_BED = "king_bed"
     SINGLE_BED = "single_bed"
     TWIN_BED = "twin_bed"
 
+
 class EarthStayinBedroom(BaseModel):
     number_beds: int
     bed_type: EarthStayinBedType
+
 
 class EarthStayinBathroomFixtures(str, Enum):
     TUB = "tub"
@@ -24,9 +29,11 @@ class EarthStayinBathroomFixtures(str, Enum):
     TOILET = "toilet"
     BIDET = "bidet"
 
+
 class EarthStayinBathroom(BaseModel):
     name: str
     bathroom_fixtures: list[EarthStayinBathroomFixtures]
+
 
 class EarthStayinHouseRules(BaseModel):
     checkin_time: str
@@ -34,6 +41,7 @@ class EarthStayinHouseRules(BaseModel):
     smoking_allowed: bool
     rest_time: str
     pets_allowed: bool
+
 
 class EarthStayinPropertyBase(PropertyBase):
     description: str
@@ -45,6 +53,19 @@ class EarthStayinPropertyBase(PropertyBase):
     accessibilities: list[str]
     additional_info: str
     house_rules: EarthStayinHouseRules
+
+
+class EarthStayinPropertyBaseUpdate(PropertyBaseUpdate):
+    description: Optional[str] = None
+    number_of_guests: Optional[int] = None
+    square_meters: Optional[int] = None
+    bedrooms: Optional[dict[str, list[EarthStayinBedroom]]] = None
+    bathrooms: Optional[list[EarthStayinBathroom]] = None
+    amenities: Optional[list[EarthStayinAmenity]] = None
+    accessibilities: Optional[list[str]] = None
+    additional_info: Optional[str] = None
+    house_rules: Optional[EarthStayinHouseRules] = None
+
 
 class EarthStayinPropertyInDB(EarthStayinPropertyBase):
     id: int

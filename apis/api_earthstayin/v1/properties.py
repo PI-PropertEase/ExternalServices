@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from typing import List
 from threading import Lock
 from .earthstayin_schemas import (
@@ -9,7 +9,7 @@ from .earthstayin_schemas import (
     EarthStayinBedroom,
     EarthStayinBedType,
     EarthStayinAmenity,
-    EarthStayinHouseRules,
+    EarthStayinHouseRules, EarthStayinPropertyBaseUpdate,
 )
 
 data = {
@@ -451,28 +451,13 @@ def create_property(property_data: EarthStayinPropertyBase) -> EarthStayinProper
 
 
 @router.put("/{property_id}", status_code=200)
-def update_property(
-    property_id: int, property_data: EarthStayinPropertyBase
-) -> EarthStayinPropertyInDB:
-    updated_property = EarthStayinPropertyInDB(
-        user_email=property_data.user_email,
-        name=property_data.name,
-        address=property_data.address,
-        curr_price=property_data.curr_price,
-        description=property_data.description,
-        number_of_guests=property_data.number_of_guests,
-        square_meters=property_data.square_meters,
-        bedrooms=property_data.bedrooms,
-        bathrooms=property_data.bathrooms,
-        amenities=property_data.amenities,
-        accessibilities=property_data.accessibilities,
-        additional_info=property_data.additional_info,
-        house_rules=property_data.house_rules,
-        id=property_id,
-    )
+def update_property(property_id: int, property_data: EarthStayinPropertyBaseUpdate) -> EarthStayinPropertyInDB:
+    if not (property_to_update := data.get(property_id)):
+        raise HTTPException(status_code=404, detail="Property doesn't exist")
+    update_parameters = {field_name: field_value for field_name, field_value in property_data if field_value is not None}
+    updated_property = property_to_update.model_copy(update=update_parameters)
     data[property_id] = updated_property
-    saved_property = data[property_id]
-    return saved_property
+    return updated_property
 
 
 @router.delete("/{property_id}", status_code=200)
