@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from typing import List
 from .clickandgo_schemas import (
     CNGPropertyBase,
@@ -9,7 +9,7 @@ from .clickandgo_schemas import (
     CNGBathroomFixtures,
     CNGAmenity,
     CNGUser,
-    CNGHouseRules
+    CNGHouseRules, CNGPropertyBaseUpdate,
 )
 from threading import Lock
 
@@ -23,10 +23,14 @@ data = {
         description="Cool house",
         guest_num=3,
         house_area=500,
-        bedrooms=[
-            CNGBedroom(number_beds=2, bed_type=CNGBedType.SINGLE),
-            CNGBedroom(number_beds=1, bed_type=CNGBedType.QUEEN),
-        ],
+        bedrooms={
+            "bedroom_1": [
+                CNGBedroom(number_beds=2, bed_type=CNGBedType.SINGLE),
+            ],
+            "bedroom_2": [
+                CNGBedroom(number_beds=1, bed_type=CNGBedType.QUEEN),
+            ],
+        },
         bathrooms=[
             CNGBathroom(
                 bathroom_fixtures=[
@@ -35,17 +39,22 @@ data = {
                 ],
             )
         ],
-        available_amenities=[
-            CNGAmenity.AC, CNGAmenity.WIFI_FREE
-        ],
-        house_rules=CNGHouseRules(check_in="16:00-23:59", check_out="00:00-10:00", smoking_allowed=False, parties_allowed=True, rest_time="22:00-08:00", pets_allowed=True),
+        available_amenities=[CNGAmenity.AC, CNGAmenity.WIFI_FREE],
+        house_rules=CNGHouseRules(
+            check_in="16:00-23:59",
+            check_out="00:00-10:00",
+            smoking_allowed=False,
+            parties_allowed=True,
+            rest_time="22:00-08:00",
+            pets_allowed=True,
+        ),
         additional_info="Somos fixes",
         cancellation_policy="Não há reembolsos",
         house_manager=CNGUser(
             name="Joe Doe",
             phone_number="+351910910910",
-            languages=["Portuguese", "English", "Spanish", "Italian"]
-        )
+            languages=["Portuguese", "English", "Spanish", "Italian"],
+        ),
     ),
     2: CNGPropertyInDB(
         id=2,
@@ -56,7 +65,7 @@ data = {
         description="Interesting house",
         guest_num=5,
         house_area=200,
-        bedrooms=[CNGBedroom(number_beds=2, bed_type=CNGBedType.KING)],
+        bedrooms={"bedroom_1": [CNGBedroom(number_beds=2, bed_type=CNGBedType.KING)]},
         bathrooms=[
             CNGBathroom(
                 name="bathroom_groundfloor",
@@ -66,18 +75,22 @@ data = {
                 ],
             ),
         ],
-        available_amenities=[
-            CNGAmenity.AC, CNGAmenity.PATIO, CNGAmenity.WIFI_FREE
-        ],
-        house_rules=CNGHouseRules(check_in="16:00-23:59", check_out="00:00-10:00", smoking_allowed=False, parties_allowed=True, rest_time="22:00-08:00", pets_allowed=True),
+        available_amenities=[CNGAmenity.AC, CNGAmenity.PATIO, CNGAmenity.WIFI_FREE],
+        house_rules=CNGHouseRules(
+            check_in="16:00-23:59",
+            check_out="00:00-10:00",
+            smoking_allowed=False,
+            parties_allowed=True,
+            rest_time="22:00-08:00",
+            pets_allowed=True,
+        ),
         additional_info="Somos fixes",
         cancellation_policy="Não há reembolsos",
         house_manager=CNGUser(
             name="Alice Zqt",
             phone_number="+351920920920",
-            languages=["Portuguese", "English"]
-
-        )
+            languages=["Portuguese", "English"],
+        ),
     ),
     3: CNGPropertyInDB(
         id=3,
@@ -88,12 +101,16 @@ data = {
         description="Don't visit at 3am",
         guest_num=4,
         house_area=350,
-        bedrooms=[
-            CNGBedroom(number_beds=1, bed_type=CNGBedType.SINGLE),
-            CNGBedroom(number_beds=1, bed_type=CNGBedType.SINGLE),
-            CNGBedroom(number_beds=1, bed_type=CNGBedType.SINGLE),
-            CNGBedroom(number_beds=1, bed_type=CNGBedType.SINGLE),
-        ],
+        bedrooms={
+            "bedroom_1": [
+                CNGBedroom(number_beds=1, bed_type=CNGBedType.SINGLE),
+                CNGBedroom(number_beds=1, bed_type=CNGBedType.SINGLE),
+            ],
+            "bedroom_2": [
+                CNGBedroom(number_beds=1, bed_type=CNGBedType.SINGLE),
+                CNGBedroom(number_beds=1, bed_type=CNGBedType.SINGLE),
+            ],
+        },
         bathrooms=[
             CNGBathroom(
                 name="bathroom_groundfloor",
@@ -103,18 +120,22 @@ data = {
                 ],
             ),
         ],
-        available_amenities=[
-            CNGAmenity.PARKING, CNGAmenity.AC, CNGAmenity.WIFI_FREE
-        ],
-        house_rules=CNGHouseRules(check_in="16:00-23:59", check_out="00:00-10:00", smoking_allowed=False, parties_allowed=True, rest_time="22:00-08:00", pets_allowed=True),
+        available_amenities=[CNGAmenity.PARKING, CNGAmenity.AC, CNGAmenity.WIFI_FREE],
+        house_rules=CNGHouseRules(
+            check_in="16:00-23:59",
+            check_out="00:00-10:00",
+            smoking_allowed=False,
+            parties_allowed=True,
+            rest_time="22:00-08:00",
+            pets_allowed=True,
+        ),
         additional_info="Somos fixes",
         cancellation_policy="Não há reembolsos",
         house_manager=CNGUser(
             name="Alice Zqt",
             phone_number="+351920920920",
-            languages=["Portuguese", "English"]
-
-        )
+            languages=["Portuguese", "English"],
+        ),
     ),
     4: CNGPropertyInDB(
         id=4,
@@ -125,7 +146,7 @@ data = {
         description="Amores e flores",
         guest_num=4,
         house_area=420,
-        bedrooms=[CNGBedroom(number_beds=2, bed_type=CNGBedType.KING)],
+        bedrooms={"bedroom_1": [CNGBedroom(number_beds=2, bed_type=CNGBedType.KING)]},
         bathrooms=[
             CNGBathroom(
                 name="bathroom_groundfloor",
@@ -135,18 +156,22 @@ data = {
                 ],
             ),
         ],
-        available_amenities=[
-            CNGAmenity.PARKING, CNGAmenity.AC, CNGAmenity.WIFI_FREE
-        ],
-        house_rules=CNGHouseRules(check_in="16:00-23:59", check_out="00:00-10:00", smoking_allowed=False, parties_allowed=True, rest_time="22:00-08:00", pets_allowed=True),
+        available_amenities=[CNGAmenity.PARKING, CNGAmenity.AC, CNGAmenity.WIFI_FREE],
+        house_rules=CNGHouseRules(
+            check_in="16:00-23:59",
+            check_out="00:00-10:00",
+            smoking_allowed=False,
+            parties_allowed=True,
+            rest_time="22:00-08:00",
+            pets_allowed=True,
+        ),
         additional_info="Somos fixes",
         cancellation_policy="Não há reembolsos",
         house_manager=CNGUser(
             name="Alice Zqt",
             phone_number="+351920920920",
-            languages=["Portuguese", "English"]
-
-        )
+            languages=["Portuguese", "English"],
+        ),
     ),
     5: CNGPropertyInDB(
         id=5,
@@ -157,7 +182,7 @@ data = {
         description="A lenda reza que o são josé abre as portas da casa de banho durante a noite",
         guest_num=4,
         house_area=212,
-        bedrooms=[CNGBedroom(number_beds=4, bed_type=CNGBedType.SINGLE)],
+        bedrooms={"bedroom_1": [CNGBedroom(number_beds=4, bed_type=CNGBedType.SINGLE)]},
         bathrooms=[
             CNGBathroom(
                 name="bathroom_groundfloor",
@@ -167,18 +192,22 @@ data = {
                 ],
             ),
         ],
-        available_amenities=[
-            CNGAmenity.PARKING, CNGAmenity.AC, CNGAmenity.WIFI_FREE
-        ],
-        house_rules=CNGHouseRules(check_in="16:00-23:59", check_out="00:00-10:00", smoking_allowed=False, parties_allowed=True, rest_time="22:00-08:00", pets_allowed=True),
+        available_amenities=[CNGAmenity.PARKING, CNGAmenity.AC, CNGAmenity.WIFI_FREE],
+        house_rules=CNGHouseRules(
+            check_in="16:00-23:59",
+            check_out="00:00-10:00",
+            smoking_allowed=False,
+            parties_allowed=True,
+            rest_time="22:00-08:00",
+            pets_allowed=True,
+        ),
         additional_info="Somos fixes",
         cancellation_policy="Não há reembolsos",
         house_manager=CNGUser(
             name="Alice Zqt",
             phone_number="+351920920920",
-            languages=["Portuguese", "English"]
-
-        )
+            languages=["Portuguese", "English"],
+        ),
     ),
     6: CNGPropertyInDB(
         id=6,
@@ -189,12 +218,16 @@ data = {
         description="Espaçoso",
         guest_num=4,
         house_area=551,
-        bedrooms=[
-            CNGBedroom(number_beds=1, bed_type=CNGBedType.SINGLE),
-            CNGBedroom(number_beds=1, bed_type=CNGBedType.SINGLE),
-            CNGBedroom(number_beds=1, bed_type=CNGBedType.SINGLE),
-            CNGBedroom(number_beds=1, bed_type=CNGBedType.SINGLE),
-        ],
+        bedrooms={
+            "bedroom_1": [
+                CNGBedroom(number_beds=1, bed_type=CNGBedType.SINGLE),
+                CNGBedroom(number_beds=1, bed_type=CNGBedType.SINGLE),
+            ],
+            "bedroom_2": [
+                CNGBedroom(number_beds=1, bed_type=CNGBedType.SINGLE),
+                CNGBedroom(number_beds=1, bed_type=CNGBedType.SINGLE),
+            ],
+        },
         bathrooms=[
             CNGBathroom(
                 name="bathroom_groundfloor",
@@ -204,18 +237,22 @@ data = {
                 ],
             ),
         ],
-        available_amenities=[
-            CNGAmenity.PARKING, CNGAmenity.AC, CNGAmenity.WIFI_FREE
-        ],
-        house_rules=CNGHouseRules(check_in="16:00-23:59", check_out="00:00-10:00", smoking_allowed=False, parties_allowed=True, rest_time="22:00-08:00", pets_allowed=True),
+        available_amenities=[CNGAmenity.PARKING, CNGAmenity.AC, CNGAmenity.WIFI_FREE],
+        house_rules=CNGHouseRules(
+            check_in="16:00-23:59",
+            check_out="00:00-10:00",
+            smoking_allowed=False,
+            parties_allowed=True,
+            rest_time="22:00-08:00",
+            pets_allowed=True,
+        ),
         additional_info="Somos fixes",
         cancellation_policy="Não há reembolsos",
         house_manager=CNGUser(
             name="Alice Zqt",
             phone_number="+351920920920",
-            languages=["Portuguese", "English"]
-
-        )
+            languages=["Portuguese", "English"],
+        ),
     ),
     7: CNGPropertyInDB(
         id=7,
@@ -226,7 +263,7 @@ data = {
         description="Baratíssimo e alta qualidade",
         guest_num=5,
         house_area=712,
-        bedrooms=[CNGBedroom(number_beds=2, bed_type=CNGBedType.KING)],
+        bedrooms={"bedroom_1": [CNGBedroom(number_beds=2, bed_type=CNGBedType.KING)]},
         bathrooms=[
             CNGBathroom(
                 name="bathroom_groundfloor",
@@ -236,17 +273,22 @@ data = {
                 ],
             ),
         ],
-        available_amenities=[
-            CNGAmenity.PARKING, CNGAmenity.AC, CNGAmenity.WIFI_FREE
-        ],
-        house_rules=CNGHouseRules(check_in="16:00-23:59", check_out="00:00-10:00", smoking_allowed=False, parties_allowed=True, rest_time="22:00-08:00", pets_allowed=True),
+        available_amenities=[CNGAmenity.PARKING, CNGAmenity.AC, CNGAmenity.WIFI_FREE],
+        house_rules=CNGHouseRules(
+            check_in="16:00-23:59",
+            check_out="00:00-10:00",
+            smoking_allowed=False,
+            parties_allowed=True,
+            rest_time="22:00-08:00",
+            pets_allowed=True,
+        ),
         additional_info="Somos fixes",
         cancellation_policy="Não há reembolsos",
         house_manager=CNGUser(
             name="Joe Doe",
             phone_number="+351910910910",
-            languages=["Portuguese", "English", "Spanish", "Italian"]
-        )
+            languages=["Portuguese", "English", "Spanish", "Italian"],
+        ),
     ),
     8: CNGPropertyInDB(
         id=8,
@@ -257,7 +299,7 @@ data = {
         description="Venham visitar, somos fixes",
         guest_num=4,
         house_area=123,
-        bedrooms=[CNGBedroom(number_beds=4, bed_type=CNGBedType.SINGLE)],
+        bedrooms={"bedroom_1": [CNGBedroom(number_beds=4, bed_type=CNGBedType.SINGLE)]},
         bathrooms=[
             CNGBathroom(
                 name="bathroom_groundfloor",
@@ -267,17 +309,22 @@ data = {
                 ],
             ),
         ],
-        available_amenities=[
-            CNGAmenity.PARKING, CNGAmenity.AC, CNGAmenity.WIFI_FREE
-        ],
-        house_rules=CNGHouseRules(check_in="16:00-23:59", check_out="00:00-10:00", smoking_allowed=False, parties_allowed=True, rest_time="22:00-08:00", pets_allowed=True),
+        available_amenities=[CNGAmenity.PARKING, CNGAmenity.AC, CNGAmenity.WIFI_FREE],
+        house_rules=CNGHouseRules(
+            check_in="16:00-23:59",
+            check_out="00:00-10:00",
+            smoking_allowed=False,
+            parties_allowed=True,
+            rest_time="22:00-08:00",
+            pets_allowed=True,
+        ),
         additional_info="Somos fixes",
         cancellation_policy="Não há reembolsos",
         house_manager=CNGUser(
             name="Joe Doe",
             phone_number="+351910910910",
-            languages=["Portuguese", "English", "Spanish", "Italian"]
-        )
+            languages=["Portuguese", "English", "Spanish", "Italian"],
+        ),
     ),
     9: CNGPropertyInDB(
         id=9,
@@ -288,7 +335,7 @@ data = {
         description="Olá",
         guest_num=5,
         house_area=512,
-        bedrooms=[CNGBedroom(number_beds=4, bed_type=CNGBedType.SINGLE)],
+        bedrooms={"bedroom_1": [CNGBedroom(number_beds=4, bed_type=CNGBedType.SINGLE)]},
         bathrooms=[
             CNGBathroom(
                 name="bathroom_groundfloor",
@@ -298,17 +345,22 @@ data = {
                 ],
             ),
         ],
-        available_amenities=[
-            CNGAmenity.PARKING, CNGAmenity.AC, CNGAmenity.WIFI_FREE
-        ],
-        house_rules=CNGHouseRules(check_in="16:00-23:59", check_out="00:00-10:00", smoking_allowed=False, parties_allowed=True, rest_time="22:00-08:00", pets_allowed=True),
+        available_amenities=[CNGAmenity.PARKING, CNGAmenity.AC, CNGAmenity.WIFI_FREE],
+        house_rules=CNGHouseRules(
+            check_in="16:00-23:59",
+            check_out="00:00-10:00",
+            smoking_allowed=False,
+            parties_allowed=True,
+            rest_time="22:00-08:00",
+            pets_allowed=True,
+        ),
         additional_info="Somos fixes",
         cancellation_policy="Não há reembolsos",
         house_manager=CNGUser(
             name="Joe Doe",
             phone_number="+351910910910",
-            languages=["Portuguese", "English", "Spanish", "Italian"]
-        )
+            languages=["Portuguese", "English", "Spanish", "Italian"],
+        ),
     ),
     10: CNGPropertyInDB(
         id=10,
@@ -319,10 +371,10 @@ data = {
         description="Nao sei o que escrever aqui",
         guest_num=3,
         house_area=432,
-        bedrooms=[
-            CNGBedroom(number_beds=2, bed_type=CNGBedType.TWIN),
-            CNGBedroom(number_beds=1, bed_type=CNGBedType.SINGLE),
-        ],
+        bedrooms={
+            "bedroom_1": [CNGBedroom(number_beds=2, bed_type=CNGBedType.TWIN)],
+            "bedroom_2": [CNGBedroom(number_beds=1, bed_type=CNGBedType.SINGLE)],
+        },
         bathrooms=[
             CNGBathroom(
                 name="bathroom_groundfloor",
@@ -332,17 +384,22 @@ data = {
                 ],
             ),
         ],
-        available_amenities=[
-            CNGAmenity.PARKING, CNGAmenity.AC, CNGAmenity.WIFI_FREE
-        ],
-        house_rules=CNGHouseRules(check_in="16:00-23:59", check_out="00:00-10:00", smoking_allowed=False, parties_allowed=True, rest_time="22:00-08:00", pets_allowed=True),
+        available_amenities=[CNGAmenity.PARKING, CNGAmenity.AC, CNGAmenity.WIFI_FREE],
+        house_rules=CNGHouseRules(
+            check_in="16:00-23:59",
+            check_out="00:00-10:00",
+            smoking_allowed=False,
+            parties_allowed=True,
+            rest_time="22:00-08:00",
+            pets_allowed=True,
+        ),
         additional_info="Somos fixes",
         cancellation_policy="Não há reembolsos",
         house_manager=CNGUser(
             name="Joe Doe",
             phone_number="+351910910910",
-            languages=["Portuguese", "English", "Spanish", "Italian"]
-        )
+            languages=["Portuguese", "English", "Spanish", "Italian"],
+        ),
     ),
 }
 
@@ -389,27 +446,13 @@ def create_property(property_data: CNGPropertyBase) -> CNGPropertyInDB:
 
 
 @router.put("/{property_id}", status_code=200)
-def update_property(property_id: int, property_data: CNGPropertyBase) -> CNGPropertyInDB:
-    updated_property = CNGPropertyInDB(
-        user_email=property_data.user_email,
-        name=property_data.name,
-        address=property_data.address,
-        curr_price=property_data.curr_price,
-        description=property_data.description,
-        guest_num=property_data.guest_num,
-        house_area=property_data.house_area,
-        bedrooms=property_data.bedrooms,
-        bathrooms=property_data.bathrooms,
-        available_amenities=property_data.available_amenities,
-        house_rules=property_data.house_rules,
-        additional_info=property_data.additional_info,
-        cancellation_policy=property_data.cancellation_policy,
-        house_manager=property_data.house_manager,
-        id=property_id,
-    )
+def update_property(property_id: int, property_data: CNGPropertyBaseUpdate) -> CNGPropertyInDB:
+    if not (property_to_update := data.get(property_id)):
+        raise HTTPException(status_code=404, detail="Property doesn't exist")
+    update_parameters = {field_name: field_value for field_name, field_value in property_data if field_value is not None}
+    updated_property = property_to_update.model_copy(update=update_parameters)
     data[property_id] = updated_property
-    saved_property = data[property_id]
-    return saved_property
+    return updated_property
 
 
 @router.delete("/{property_id}", status_code=200)

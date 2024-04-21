@@ -8,7 +8,8 @@ from .zooking_schemas import (
     ZookingBathroom,
     ZookingBathroomFixtures,
     ZookingAmenity,
-    ZookingPropertyBase, ZookingPropertyBaseUpdate
+    ZookingPropertyBase,
+    ZookingPropertyBaseUpdate,
 )
 from threading import Lock
 
@@ -22,10 +23,14 @@ data = {
         description="Tem muito sol",
         number_of_guests=4,
         square_meters=2000,
-        bedrooms=[
-            ZookingBedroom(number_beds=2, bed_type=ZookingBedType.SINGLE_BED),
-            ZookingBedroom(number_beds=1, bed_type=ZookingBedType.QUEEN_BED),
-        ],
+        bedrooms={
+            "bedroom_1": [
+                ZookingBedroom(number_beds=2, bed_type=ZookingBedType.SINGLE_BED),
+            ],
+            "bedroom_2": [
+                ZookingBedroom(number_beds=1, bed_type=ZookingBedType.QUEEN_BED),
+            ],
+        },
         bathrooms=[
             ZookingBathroom(
                 name="bathroom_groundfloor",
@@ -40,7 +45,7 @@ data = {
             ),
         ],
         amenities=[ZookingAmenity.AC, ZookingAmenity.WIFI],
-        additional_info="Se cá aparecerem, recebem um rebuçado"
+        additional_info="Se cá aparecerem, recebem um rebuçado",
     ),
     2: ZookingPropertyInDB(
         id=2,
@@ -51,7 +56,11 @@ data = {
         description="A casa mais azul desde 1999",
         number_of_guests=4,
         square_meters=2000,
-        bedrooms=[ZookingBedroom(number_beds=2, bed_type=ZookingBedType.KING_BED)],
+        bedrooms={
+            "bedroom_1": [
+                ZookingBedroom(number_beds=2, bed_type=ZookingBedType.KING_BED)
+            ]
+        },
         bathrooms=[
             ZookingBathroom(
                 name="bathroom_groundfloor",
@@ -62,7 +71,7 @@ data = {
             ),
         ],
         amenities=[ZookingAmenity.AC, ZookingAmenity.WIFI],
-        additional_info="Se cá aparecerem, recebem um rebuçado"
+        additional_info="Se cá aparecerem, recebem um rebuçado",
     ),
     3: ZookingPropertyInDB(
         id=3,
@@ -73,12 +82,16 @@ data = {
         description="A residencia mais confortável",
         number_of_guests=4,
         square_meters=2000,
-        bedrooms=[
-            ZookingBedroom(number_beds=1, bed_type=ZookingBedType.SINGLE_BED),
-            ZookingBedroom(number_beds=1, bed_type=ZookingBedType.SINGLE_BED),
-            ZookingBedroom(number_beds=1, bed_type=ZookingBedType.SINGLE_BED),
-            ZookingBedroom(number_beds=1, bed_type=ZookingBedType.SINGLE_BED),
-        ],
+        bedrooms={
+            "bedroom_1": [
+                ZookingBedroom(number_beds=1, bed_type=ZookingBedType.SINGLE_BED),
+                ZookingBedroom(number_beds=1, bed_type=ZookingBedType.SINGLE_BED),
+            ],
+            "bedroom_2": [
+                ZookingBedroom(number_beds=1, bed_type=ZookingBedType.SINGLE_BED),
+                ZookingBedroom(number_beds=1, bed_type=ZookingBedType.SINGLE_BED),
+            ],
+        },
         bathrooms=[
             ZookingBathroom(
                 name="bathroom_groundfloor",
@@ -89,7 +102,7 @@ data = {
             ),
         ],
         amenities=[ZookingAmenity.AC, ZookingAmenity.WIFI],
-        additional_info="Se cá aparecerem, recebem um rebuçado"
+        additional_info="Se cá aparecerem, recebem um rebuçado",
     ),
     4: ZookingPropertyInDB(
         id=4,
@@ -100,7 +113,11 @@ data = {
         description="Tem um jardim fixe",
         number_of_guests=4,
         square_meters=2000,
-        bedrooms=[ZookingBedroom(number_beds=2, bed_type=ZookingBedType.KING_BED)],
+        bedrooms={
+            "bedroom_1": [
+                ZookingBedroom(number_beds=2, bed_type=ZookingBedType.KING_BED)
+            ]
+        },
         bathrooms=[
             ZookingBathroom(
                 name="bathroom_groundfloor",
@@ -111,7 +128,7 @@ data = {
             ),
         ],
         amenities=[ZookingAmenity.AC, ZookingAmenity.WIFI],
-        additional_info="Se cá aparecerem, recebem um rebuçado"
+        additional_info="Se cá aparecerem, recebem um rebuçado",
     ),
     5: ZookingPropertyInDB(
         id=5,
@@ -122,7 +139,11 @@ data = {
         description="Yes",
         number_of_guests=4,
         square_meters=2000,
-        bedrooms=[ZookingBedroom(number_beds=4, bed_type=ZookingBedType.SINGLE_BED)],
+        bedrooms={
+            "bedroom_1": [
+                ZookingBedroom(number_beds=4, bed_type=ZookingBedType.SINGLE_BED)
+            ]
+        },
         bathrooms=[
             ZookingBathroom(
                 name="bathroom_groundfloor",
@@ -133,7 +154,7 @@ data = {
             ),
         ],
         amenities=[ZookingAmenity.AC, ZookingAmenity.WIFI],
-        additional_info="Se cá aparecerem, recebem um rebuçado"
+        additional_info="Se cá aparecerem, recebem um rebuçado",
     ),
     6: ZookingPropertyInDB(
         id=6,
@@ -144,12 +165,16 @@ data = {
         description="Nao é em braga",
         number_of_guests=4,
         square_meters=2000,
-        bedrooms=[
-            ZookingBedroom(number_beds=1, bed_type=ZookingBedType.SINGLE_BED),
-            ZookingBedroom(number_beds=1, bed_type=ZookingBedType.SINGLE_BED),
-            ZookingBedroom(number_beds=1, bed_type=ZookingBedType.SINGLE_BED),
-            ZookingBedroom(number_beds=1, bed_type=ZookingBedType.SINGLE_BED),
-        ],
+        bedrooms={
+            "bedroom_1": [
+                ZookingBedroom(number_beds=1, bed_type=ZookingBedType.SINGLE_BED),
+                ZookingBedroom(number_beds=1, bed_type=ZookingBedType.SINGLE_BED),
+            ],
+            "bedroom_2": [
+                ZookingBedroom(number_beds=1, bed_type=ZookingBedType.SINGLE_BED),
+                ZookingBedroom(number_beds=1, bed_type=ZookingBedType.SINGLE_BED),
+            ],
+        },
         bathrooms=[
             ZookingBathroom(
                 name="bathroom_groundfloor",
@@ -160,7 +185,7 @@ data = {
             ),
         ],
         amenities=[ZookingAmenity.AC, ZookingAmenity.WIFI],
-        additional_info="Se cá aparecerem, recebem um rebuçado"
+        additional_info="Se cá aparecerem, recebem um rebuçado",
     ),
     7: ZookingPropertyInDB(
         id=7,
@@ -171,7 +196,11 @@ data = {
         description=".8",
         number_of_guests=4,
         square_meters=2000,
-        bedrooms=[ZookingBedroom(number_beds=2, bed_type=ZookingBedType.KING_BED)],
+        bedrooms={
+            "bedroom_1": [
+                ZookingBedroom(number_beds=2, bed_type=ZookingBedType.KING_BED)
+            ]
+        },
         bathrooms=[
             ZookingBathroom(
                 name="bathroom_groundfloor",
@@ -182,7 +211,7 @@ data = {
             ),
         ],
         amenities=[ZookingAmenity.AC, ZookingAmenity.WIFI],
-        additional_info="Se cá aparecerem, recebem um rebuçado"
+        additional_info="Se cá aparecerem, recebem um rebuçado",
     ),
     8: ZookingPropertyInDB(
         id=8,
@@ -193,7 +222,11 @@ data = {
         description="O nome desta casa nao é mentira",
         number_of_guests=4,
         square_meters=2000,
-        bedrooms=[ZookingBedroom(number_beds=4, bed_type=ZookingBedType.SINGLE_BED)],
+        bedrooms={
+            "bedroom_1": [
+                ZookingBedroom(number_beds=4, bed_type=ZookingBedType.SINGLE_BED)
+            ]
+        },
         bathrooms=[
             ZookingBathroom(
                 name="bathroom_groundfloor",
@@ -204,7 +237,7 @@ data = {
             ),
         ],
         amenities=[ZookingAmenity.AC, ZookingAmenity.WIFI],
-        additional_info="Se cá aparecerem, recebem um rebuçado"
+        additional_info="Se cá aparecerem, recebem um rebuçado",
     ),
     9: ZookingPropertyInDB(
         id=9,
@@ -215,7 +248,11 @@ data = {
         description="Tem uma boa view",
         number_of_guests=4,
         square_meters=2000,
-        bedrooms=[ZookingBedroom(number_beds=4, bed_type=ZookingBedType.SINGLE_BED)],
+        bedrooms={
+            "bedroom_1": [
+                ZookingBedroom(number_beds=4, bed_type=ZookingBedType.SINGLE_BED)
+            ]
+        },
         bathrooms=[
             ZookingBathroom(
                 name="bathroom_groundfloor",
@@ -226,7 +263,7 @@ data = {
             ),
         ],
         amenities=[ZookingAmenity.AC, ZookingAmenity.WIFI],
-        additional_info="Se cá aparecerem, recebem um rebuçado"
+        additional_info="Se cá aparecerem, recebem um rebuçado",
     ),
     10: ZookingPropertyInDB(
         id=10,
@@ -237,7 +274,11 @@ data = {
         description="Sim, vais dormir num quarto com 10 pessoas",
         number_of_guests=4,
         square_meters=2000,
-        bedrooms=[ZookingBedroom(number_beds=4, bed_type=ZookingBedType.SINGLE_BED)],
+        bedrooms={
+            "bedroom_1": [
+                ZookingBedroom(number_beds=4, bed_type=ZookingBedType.SINGLE_BED)
+            ]
+        },
         bathrooms=[
             ZookingBathroom(
                 name="bathroom_groundfloor",
@@ -248,7 +289,7 @@ data = {
             ),
         ],
         amenities=[ZookingAmenity.AC, ZookingAmenity.WIFI],
-        additional_info="Se cá aparecerem, recebem um rebuçado"
+        additional_info="Se cá aparecerem, recebem um rebuçado",
     ),
 }
 
@@ -295,27 +336,12 @@ def create_property(property_data: ZookingPropertyBase) -> ZookingPropertyInDB:
 
 @router.put("/{property_id}", status_code=200)
 def update_property(property_id: int, property_data: ZookingPropertyBaseUpdate) -> ZookingPropertyInDB:
-    property_to_update = data[property_id]
-
-    print("property_to_update", property_to_update)
-
-    updated_property = ZookingPropertyInDB(
-            user_email=property_data.user_email,
-            name=property_data.name,
-            address=property_data.address,
-            curr_price=property_data.curr_price,
-            description=property_data.description,
-            number_of_guests=property_data.number_of_guests,
-            square_meters=property_data.square_meters,
-            bedrooms=property_data.bedrooms,
-            bathrooms=property_data.bathrooms,
-            amenities=property_data.amenities,
-            additional_info=property_data.additional_info,
-            id=property_id,
-        )
+    if not (property_to_update := data.get(property_id)):
+        raise HTTPException(status_code=404, detail="Property doesn't exist")
+    update_parameters = {field_name: field_value for field_name, field_value in property_data if field_value is not None}
+    updated_property = property_to_update.model_copy(update=update_parameters)
     data[property_id] = updated_property
-    saved_property = data[property_id]
-    return saved_property
+    return updated_property
 
 
 @router.delete("/{property_id}", status_code=200)

@@ -11,7 +11,6 @@ class PropertyBase(BaseModel):
 
 
 class PropertyBaseUpdate(BaseModel):
-    user_email: Optional[str] = None
     name: Optional[str] = None
     address: Optional[str] = None
     curr_price: Optional[float] = None
