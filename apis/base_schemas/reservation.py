@@ -5,7 +5,6 @@ from datetime import datetime
 class ReservationBase(BaseModel):
     property_id: int
     status: str
-    email: EmailStr
     client_email: str
     client_name: str
     client_phone: str
