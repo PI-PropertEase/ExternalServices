@@ -1,5 +1,13 @@
+from enum import Enum
+
 from pydantic import BaseModel, validator, Field, EmailStr
 from datetime import datetime
+
+
+class ReservationStatus(str, Enum):
+    CONFIRMED = "confirmed"
+    PENDING = "pending"
+    CANCELED = "canceled"
 
 
 class ReservationBase(BaseModel):
@@ -10,7 +18,7 @@ class ReservationBase(BaseModel):
     arrival: datetime
     departure: datetime
     cost: float
-    confirmed: bool = False
+    reservation_status: ReservationStatus
 
     @validator('departure')
     def departure_later_then_arrival(cls, v, values):
