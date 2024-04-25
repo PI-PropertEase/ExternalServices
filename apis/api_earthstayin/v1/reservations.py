@@ -7,13 +7,17 @@ from api_earthstayin.v1.properties import data
 
 reservation_data = {
     1: ReservationInDB(id=1, property_id=10, client_email="harry_larry@gmail.com", client_name="Harry Larry", client_phone="+351915555555",
-                       arrival=datetime(2024, 3, 4, 12, 0), departure=datetime(2024, 3, 7, 12, 0), cost=200.0),
+                       arrival=datetime(2024, 3, 4, 12, 0), departure=datetime(2024, 3, 7, 12, 0), cost=200.0,
+                       confirmed=True),
     2: ReservationInDB(id=2, property_id=9, client_email="janet_maven@gmail.com", client_name="Janet Maven", client_phone="+351916666666",
-                       arrival=datetime(2024, 3, 3, 12, 0), departure=datetime(2024, 3, 8, 12, 0), cost=220.0),
+                       arrival=datetime(2024, 3, 3, 12, 0), departure=datetime(2024, 3, 8, 12, 0), cost=220.0,
+                       confirmed=True),
     3: ReservationInDB(id=3, property_id=8, client_email="james_brown@gmail.com", client_name="James L. Brown", client_phone="+351917777777",
-                       arrival=datetime(2024, 3, 6, 12, 0), departure=datetime(2024, 5, 9, 12, 0), cost=190.0),
+                       arrival=datetime(2024, 3, 6, 12, 0), departure=datetime(2024, 5, 9, 12, 0), cost=190.0,
+                       confirmed=True),
     4: ReservationInDB(id=4, property_id=8, client_email="dalton_johnson@gmail.com", client_name="Dalton Johnson", client_phone="+351911888888",
-                       arrival=datetime(2024, 5, 9, 12, 0), departure=datetime(2024, 5, 10, 12, 0), cost=230.0),
+                       arrival=datetime(2024, 5, 9, 12, 0), departure=datetime(2024, 5, 10, 12, 0), cost=230.0,
+                       confirmed=True),
 }
 
 lock = Lock()

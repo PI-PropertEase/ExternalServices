@@ -10,6 +10,7 @@ class ReservationBase(BaseModel):
     arrival: datetime
     departure: datetime
     cost: float
+    confirmed: bool = False
 
     @validator('departure')
     def departure_later_then_arrival(cls, v, values):
