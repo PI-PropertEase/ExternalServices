@@ -1,12 +1,10 @@
 from fastapi import APIRouter
 from typing import List
-from base_schemas.reservation import ReservationBase, ReservationInDB
+from base_schemas.reservation import ReservationBase, ReservationInDB, ReservationStatus
 from datetime import datetime
 from threading import Lock
 from api_zooking.v1.properties import data
 from pydantic import EmailStr
-
-from apis.base_schemas.reservation import ReservationStatus
 
 reservation_data = {
     1: ReservationInDB(id=1, property_id=1, client_email="john@gmail.com", client_name="John Doe",
@@ -82,6 +80,8 @@ router = APIRouter(
     tags=["reservations"]
 )
 
+sequence_id = 17
+
 
 @router.get("", status_code=200)
 def get_reservations(email: str = "") -> List[ReservationInDB]:
@@ -92,10 +92,12 @@ def get_reservations(email: str = "") -> List[ReservationInDB]:
 
 
 @router.get("/upcoming", status_code=200)
-def get_upcoming_reservations(email: EmailStr, confirmed: bool):
+def get_upcoming_reservations(email: EmailStr):
     properties_ids = [key for key, property in data.items() if property.user_email == email]
+    # if email == "miguel9bf@gmail.com":
+    #     properties_ids = [1]
     return [reservation for reservation in reservation_data.values() if reservation.property_id in properties_ids
-            and reservation.arrival > datetime.now() and reservation.confirmed == confirmed]
+            and reservation.arrival > datetime.now()]
 
 
 @router.get("/{property_id}", status_code=200)
@@ -105,24 +107,23 @@ def get_reservations_by_property_id(property_id: int) -> List[ReservationInDB]:
 
 @router.post("", status_code=201)
 def create_reservation(reservation: ReservationBase) -> ReservationInDB:
+    global sequence_id
     with lock:
-        last_id = list(reservation_data.keys())[-1]
-        id = last_id + 1
+        sequence_id += 1
         reservation_in_db = ReservationInDB(
             property_id=reservation.property_id,
-            status=reservation.status,
-            email=reservation.email,
             client_email=reservation.client_email,
             client_name=reservation.client_name,
             client_phone=reservation.client_phone,
             arrival=reservation.arrival,
             departure=reservation.departure,
             cost=reservation.cost,
-            id=id
+            reservation_status=reservation.reservation_status,
+            id=sequence_id
         )
-        reservation_data[id] = reservation_in_db
-    saved_reservation = reservation_data[id]
-    return saved_reservation
+        reservation_data[sequence_id] = reservation_in_db
+        sequence_id += 1
+    return reservation_in_db
 
 
 @router.put("/{reservation_id}", status_code=200)
