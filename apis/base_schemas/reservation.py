@@ -1,4 +1,5 @@
 from enum import Enum
+from typing import Optional
 
 from pydantic import BaseModel, validator, Field, EmailStr
 from datetime import datetime
@@ -25,6 +26,11 @@ class ReservationBase(BaseModel):
         if v <= values['arrival']:
             raise ValueError('Departure date must be after arrival date')
         return v
+
+
+class ReservationBaseUpdate(BaseModel):
+    reservation_status: Optional[ReservationStatus] = None
+
 
 
 class ReservationInDB(ReservationBase):

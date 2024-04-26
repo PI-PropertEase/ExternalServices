@@ -1,6 +1,6 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from typing import List
-from base_schemas.reservation import ReservationBase, ReservationInDB, ReservationStatus
+from base_schemas.reservation import ReservationBase, ReservationInDB, ReservationStatus, ReservationBaseUpdate
 from datetime import datetime
 from threading import Lock
 from api_zooking.v1.properties import data
@@ -94,8 +94,8 @@ def get_reservations(email: str = "") -> List[ReservationInDB]:
 @router.get("/upcoming", status_code=200)
 def get_upcoming_reservations(email: EmailStr):
     properties_ids = [key for key, property in data.items() if property.user_email == email]
-    # if email == "miguel9bf@gmail.com":
-    #     properties_ids = [1]
+    if email == "miguel9bf@gmail.com":
+        properties_ids = [1]
     return [reservation for reservation in reservation_data.values() if reservation.property_id in properties_ids
             and reservation.arrival > datetime.now()]
 
@@ -127,22 +127,13 @@ def create_reservation(reservation: ReservationBase) -> ReservationInDB:
 
 
 @router.put("/{reservation_id}", status_code=200)
-def update_reservation(reservation_id: int, reservation: ReservationBase) -> ReservationInDB:
-    reservation_in_db = ReservationInDB(
-        property_id=reservation.property_id,
-        status=reservation.status,
-        email=reservation.email,
-        client_email=reservation.client_email,
-        client_name=reservation.client_name,
-        client_phone=reservation.client_phone,
-        arrival=reservation.arrival,
-        departure=reservation.departure,
-        cost=reservation.cost,
-        id=reservation_id
-    )
-    reservation_data[reservation_id] = reservation_in_db
-    saved_reservation = reservation_data[reservation_id]
-    return saved_reservation
+def update_reservation(reservation_id: int, reservation_update_data: ReservationBaseUpdate) -> ReservationInDB:
+    if not (reservation_to_update := reservation_data.get(reservation_id)):
+        raise HTTPException(status_code=404, detail="Reservation doesn't exist")
+    update_parameters = {field_name: field_value for field_name, field_value in reservation_update_data if field_value is not None}
+    updated_reservation = reservation_to_update.model_copy(update=update_parameters)
+    reservation_data[reservation_id] = updated_reservation
+    return updated_reservation
 
 
 @router.delete("/{reservation_id}", status_code=200)
