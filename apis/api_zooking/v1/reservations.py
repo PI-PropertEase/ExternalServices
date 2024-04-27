@@ -80,7 +80,7 @@ router = APIRouter(
     tags=["reservations"]
 )
 
-sequence_id = 17
+sequence_id = 16
 
 
 @router.get("", status_code=200)
@@ -122,7 +122,6 @@ def create_reservation(reservation: ReservationBase) -> ReservationInDB:
             id=sequence_id
         )
         reservation_data[sequence_id] = reservation_in_db
-        sequence_id += 1
     return reservation_in_db
 
 
