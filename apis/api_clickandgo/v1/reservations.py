@@ -70,8 +70,6 @@ def get_reservations(email: str = "") -> List[ReservationInDB]:
 @router.get("/upcoming", status_code=200)
 def get_upcoming_reservations(email: EmailStr):
     properties_ids = [key for key, property in data.items() if property.user_email == email]
-    if email == "miguel9bf@gmail.com":
-        properties_ids = [1]
     return [reservation for reservation in reservation_data.values() if reservation.property_id in properties_ids
             and reservation.arrival > datetime.now()]
 
