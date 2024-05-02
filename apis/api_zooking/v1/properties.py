@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from typing import List
-from base_schemas.property import PropertyBase, PropertyInDB
+from base_schemas.property import PropertyBase, PropertyInDB, ClosedTimeFrame
 from .zooking_schemas import (
     ZookingPropertyInDB,
     ZookingBedroom,
@@ -12,6 +12,7 @@ from .zooking_schemas import (
     ZookingPropertyBaseUpdate,
 )
 from threading import Lock
+from collections import defaultdict
 
 data = {
     1: ZookingPropertyInDB(
@@ -294,7 +295,8 @@ data = {
 }
 
 lock = Lock()
-
+closed_time_frame_sequence_id_lock = Lock()
+closed_time_frame_sequence_id = 1
 router = APIRouter(prefix="/properties", tags=["properties"])
 
 
@@ -339,6 +341,35 @@ def update_property(property_id: int, property_data: ZookingPropertyBaseUpdate) 
     if not (property_to_update := data.get(property_id)):
         raise HTTPException(status_code=404, detail="Property doesn't exist")
     update_parameters = {field_name: field_value for field_name, field_value in property_data if field_value is not None}
+    if (request_closed_time_frames := update_parameters.get("closed_time_frames")) is not None:
+        update_closed_time_frames = property_to_update.closed_time_frames
+        print("BEFORE: update_parameters", update_parameters)
+        print("BEFORE: request_closed_time_frames", request_closed_time_frames)
+        print("BEFORE: update_closed_time_frames", update_closed_time_frames)
+
+        for closed_time_frame in request_closed_time_frames:
+            if closed_time_frame.id is None:
+                # insert new event with a new id
+                global closed_time_frame_sequence_id
+                with closed_time_frame_sequence_id_lock:
+                    update_closed_time_frames[closed_time_frame_sequence_id] = ClosedTimeFrame(**closed_time_frame.model_dump())
+                    closed_time_frame_sequence_id += 1
+            else:
+                # update existing event if key is valid (already exists)
+                if closed_time_frame.id not in update_closed_time_frames:
+                    raise HTTPException(
+                        status_code=404,
+                        detail=f"Closed time frame with id {closed_time_frame.id} for property id {property_id} doesn't exist"
+                    )
+                print("closed_time_frame", closed_time_frame)
+                if closed_time_frame.begin_datetime is None and closed_time_frame.end_datetime is None:
+                    update_closed_time_frames.pop(closed_time_frame.id)
+                else:
+                    update_closed_time_frames[closed_time_frame.id] = closed_time_frame
+
+        update_parameters["closed_time_frames"] = update_closed_time_frames
+        print("AFTER: update_closed_time_frames", update_closed_time_frames)
+
     updated_property = property_to_update.model_copy(update=update_parameters)
     data[property_id] = updated_property
     return updated_property

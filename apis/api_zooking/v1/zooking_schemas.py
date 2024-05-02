@@ -1,7 +1,6 @@
 from enum import Enum
 from typing import Optional
-
-from base_schemas.property import PropertyBase, PropertyBaseUpdate
+from base_schemas.property import PropertyBase, PropertyBaseUpdate, ClosedTimeFrame
 from pydantic import BaseModel
 
 
@@ -55,3 +54,4 @@ class ZookingPropertyBaseUpdate(PropertyBaseUpdate):
 
 class ZookingPropertyInDB(ZookingPropertyBase):
     id: int
+    closed_time_frames: dict[int, ClosedTimeFrame] = {}
