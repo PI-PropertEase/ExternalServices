@@ -11,6 +11,7 @@ from .clickandgo_schemas import (
     CNGUser,
     CNGHouseRules, CNGPropertyBaseUpdate,
 )
+from base_schemas.property import ClosedTimeFrame, ClosedTimeFrameUpdate
 from threading import Lock
 
 data = {
@@ -404,6 +405,8 @@ data = {
 }
 
 lock = Lock()
+closed_timeframe_lock = Lock()
+closed_timeframe_id = 1
 
 router = APIRouter(prefix="/properties", tags=["properties"])
 
@@ -459,3 +462,64 @@ def update_property(property_id: int, property_data: CNGPropertyBaseUpdate) -> C
 def delete_property(property_id: int) -> List[CNGPropertyInDB]:
     del data[property_id]
     return data.values()
+
+
+@router.post("/events/{property_id}", status_code=201)
+def create_closed_timeframe_event(property_id: int, closed_timeframe_event: ClosedTimeFrame) -> ClosedTimeFrame:
+    if not (property_to_create_event_on := data.get(property_id)):
+        raise HTTPException(status_code=404, detail="Property doesn't exist")
+
+    global closed_timeframe_id
+    with closed_timeframe_lock:
+        property_to_create_event_on.closed_time_frames[closed_timeframe_id] = closed_timeframe_event
+        closed_timeframe_id += 1
+
+    data[property_id] = property_to_create_event_on
+
+    return closed_timeframe_event
+        
+
+@router.put("/events/{property_id}", status_code=200)
+def update_closed_timeframe_event(property_id: int, update_params: ClosedTimeFrameUpdate) -> ClosedTimeFrame:
+    if not (property_to_update := data.get(property_id)):
+        raise HTTPException(status_code=404, detail="Property doesn't exist")
+
+    if update_params.id not in property_to_update.closed_time_frames:
+        raise HTTPException(
+            status_code=404,
+            detail=f"Closed time frame with id {update_params.id} for property id {property_id} doesn't exist"
+        )
+    
+    closed_timeframe_to_update = property_to_update.closed_time_frames[update_params.id]
+    
+    updated_closed_timeframe: ClosedTimeFrame = ClosedTimeFrame(
+        begin_datetime=update_params.begin_datetime if update_params.begin_datetime else closed_timeframe_to_update.begin_datetime,
+        end_datetime=update_params.end_datetime if update_params.end_datetime else closed_timeframe_to_update.end_datetime
+    )
+
+    property_to_update.closed_time_frames[update_params.id] = updated_closed_timeframe
+
+    data[property_id] = property_to_update
+
+    return updated_closed_timeframe
+        
+
+@router.delete("/events/{property_id}", status_code=204)
+def update_closed_timeframe_event(property_id: int, update_params: ClosedTimeFrameUpdate):
+    if not (property_to_update := data.get(property_id)):
+        raise HTTPException(status_code=404, detail="Property doesn't exist")
+
+    if update_params.id not in property_to_update.closed_time_frames:
+        raise HTTPException(
+            status_code=404,
+            detail=f"Closed time frame with id {update_params.id} for property id {property_id} doesn't exist"
+        )
+    
+    property_closed_timeframes = property_to_update.closed_time_frames
+    
+    del property_closed_timeframes[update_params.id]
+
+    property_to_update.closed_time_frames = property_closed_timeframes
+
+    data[property_id] = property_to_update
+        
