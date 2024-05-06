@@ -7,6 +7,14 @@ class ClosedTimeFrame(BaseModel):
     begin_datetime: datetime
     end_datetime: datetime
 
+    @model_validator(mode="after")
+    def validate(self):
+        if self.begin_datetime < datetime.now():
+            raise ValueError("begin_datetime cannot be in the past")
+        if self.begin_datetime >= self.end_datetime:
+            raise ValueError("begin_datetime cannot be greater or equal to end_datetime")
+        return self
+
 
 class ClosedTimeFrameUpdate(ClosedTimeFrame):
     id: Optional[int] = None

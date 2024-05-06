@@ -1,7 +1,7 @@
 from enum import Enum
 from typing import Optional
 
-from base_schemas.property import PropertyBase, PropertyBaseUpdate
+from base_schemas.property import PropertyBase, PropertyBaseUpdate, ClosedTimeFrame
 from pydantic import BaseModel
 
 
@@ -69,3 +69,24 @@ class EarthStayinPropertyBaseUpdate(PropertyBaseUpdate):
 
 class EarthStayinPropertyInDB(EarthStayinPropertyBase):
     id: int
+
+
+class ClosedTimeFrameWithPropertyId(ClosedTimeFrame):
+    property_id: int
+
+
+class ClosedTimeFrameWithIdAndPropertyId(ClosedTimeFrame):
+    id: int
+    property_id: int
+
+
+def convert_to_closedtimeframe_with_id_and_property_id(
+        closed_time_frame_id: int,
+        closed_time_frame_with_property_id: ClosedTimeFrameWithPropertyId,
+) -> ClosedTimeFrameWithIdAndPropertyId:
+    return ClosedTimeFrameWithIdAndPropertyId(
+        id=closed_time_frame_id,
+        property_id=closed_time_frame_with_property_id.property_id,
+        begin_datetime=closed_time_frame_with_property_id.begin_datetime,
+        end_datetime=closed_time_frame_with_property_id.end_datetime,
+    )
