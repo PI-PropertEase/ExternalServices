@@ -1,7 +1,7 @@
 from enum import Enum
 from typing import Optional
 
-from base_schemas.property import PropertyBase, PropertyBaseUpdate
+from base_schemas.property import PropertyBase, PropertyBaseUpdate, ClosedTimeFrame
 from pydantic import BaseModel
 
 
@@ -77,3 +77,5 @@ class CNGPropertyBaseUpdate(PropertyBaseUpdate):
 
 class CNGPropertyInDB(CNGPropertyBase):
     id: int
+    closed_time_frames: dict[int, ClosedTimeFrame] = {}
+

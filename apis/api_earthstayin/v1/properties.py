@@ -1,6 +1,7 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, status
 from typing import List
 from threading import Lock
+
 from .earthstayin_schemas import (
     EarthStayinPropertyInDB,
     EarthStayinPropertyBase,
@@ -9,8 +10,10 @@ from .earthstayin_schemas import (
     EarthStayinBedroom,
     EarthStayinBedType,
     EarthStayinAmenity,
-    EarthStayinHouseRules, EarthStayinPropertyBaseUpdate,
+    EarthStayinHouseRules, EarthStayinPropertyBaseUpdate, ClosedTimeFrameWithPropertyId,
+    ClosedTimeFrameWithIdAndPropertyId, convert_to_closedtimeframe_with_id_and_property_id,
 )
+from base_schemas.property import ClosedTimeFrame
 
 data = {
     1: EarthStayinPropertyInDB(
@@ -409,8 +412,10 @@ data = {
     ),
 }
 
+closed_time_frames_data = {}
 lock = Lock()
-
+closed_time_frame_sequence_id_lock = Lock()
+closed_time_frame_sequence_id = 1
 router = APIRouter(prefix="/properties", tags=["properties"])
 
 
@@ -454,7 +459,8 @@ def create_property(property_data: EarthStayinPropertyBase) -> EarthStayinProper
 def update_property(property_id: int, property_data: EarthStayinPropertyBaseUpdate) -> EarthStayinPropertyInDB:
     if not (property_to_update := data.get(property_id)):
         raise HTTPException(status_code=404, detail="Property doesn't exist")
-    update_parameters = {field_name: field_value for field_name, field_value in property_data if field_value is not None}
+    update_parameters = {field_name: field_value for field_name, field_value in property_data if
+                         field_value is not None}
     updated_property = property_to_update.model_copy(update=update_parameters)
     data[property_id] = updated_property
     return updated_property
@@ -464,3 +470,52 @@ def update_property(property_id: int, property_data: EarthStayinPropertyBaseUpda
 def delete_property(property_id: int) -> List[EarthStayinPropertyInDB]:
     del data[property_id]
     return data.values()
+
+
+@router.get("/{property_id}/closedtimeframes", response_model=List[ClosedTimeFrameWithIdAndPropertyId],
+            status_code=status.HTTP_200_OK)
+def read_closed_time_frames(property_id: int):
+    if not data.get(property_id):
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Property with id {property_id} "
+                                                                          f"doesn't exist")
+
+    return [convert_to_closedtimeframe_with_id_and_property_id(closed_time_frame_id, closed_time_frame)
+            for closed_time_frame_id, closed_time_frame in closed_time_frames_data.items()
+            if closed_time_frame.property_id == property_id]
+
+
+@router.post("/closedtimeframes", response_model=ClosedTimeFrameWithIdAndPropertyId, status_code=status.HTTP_200_OK)
+def create_closed_time_frame(closed_time_frame_with_prop_id: ClosedTimeFrameWithPropertyId):
+    if not data.get(closed_time_frame_with_prop_id.property_id):
+        raise HTTPException(status_code=404, detail=f"Property with id {closed_time_frame_with_prop_id.property_id} "
+                                                    f"doesn't exist")
+
+    global closed_time_frame_sequence_id
+    with closed_time_frame_sequence_id_lock:
+        closed_time_frame_id = closed_time_frame_sequence_id
+        closed_time_frames_data[closed_time_frame_sequence_id] = closed_time_frame_with_prop_id
+        closed_time_frame_sequence_id += 1
+
+    return convert_to_closedtimeframe_with_id_and_property_id(closed_time_frame_id, closed_time_frame_with_prop_id)
+
+
+@router.put("/closedtimeframes/{closed_time_frame_id}", response_model=ClosedTimeFrameWithIdAndPropertyId,
+            status_code=status.HTTP_200_OK)
+def update_closed_time_frame(closed_time_frame_id: int, closed_time_frame: ClosedTimeFrame):
+    if not (closed_time_frame_with_prop_id := closed_time_frames_data.get(closed_time_frame_id)):
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f"Closed time frame with id {closed_time_frame_id} doesn't exist")
+
+    closed_time_frame_with_prop_id.begin_datetime = closed_time_frame.begin_datetime
+    closed_time_frame_with_prop_id.end_datetime = closed_time_frame.end_datetime
+
+    return convert_to_closedtimeframe_with_id_and_property_id(closed_time_frame_id, closed_time_frame_with_prop_id)
+
+
+@router.delete("/closedtimeframes/{closed_time_frame_id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_closed_time_frame(closed_time_frame_id: int):
+    if not closed_time_frames_data.get(closed_time_frame_id):
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f"Closed time frame with id {closed_time_frame_id} doesn't exist")
+
+    del closed_time_frames_data[closed_time_frame_id]
