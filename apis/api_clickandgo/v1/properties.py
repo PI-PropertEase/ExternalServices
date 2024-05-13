@@ -34,6 +34,7 @@ data = {
         },
         bathrooms=[
             CNGBathroom(
+                name="Ground Floor Bathroom",
                 bathroom_fixtures=[
                     CNGBathroomFixtures.TOILET,
                     CNGBathroomFixtures.SHOWER,
@@ -51,11 +52,13 @@ data = {
         ),
         additional_info="Somos fixes",
         cancellation_policy="Não há reembolsos",
-        house_manager=CNGUser(
-            name="Joe Doe",
-            phone_number="+351910910910",
-            languages=["Portuguese", "English", "Spanish", "Italian"],
-        ),
+        house_managers=[
+            CNGUser(
+                name="Joe Doe",
+                phone_number="+351910910910",
+                languages=["Portuguese", "English", "Spanish", "Italian"],
+            ),
+        ]
     ),
     2: CNGPropertyInDB(
         id=2,
@@ -87,11 +90,13 @@ data = {
         ),
         additional_info="Somos fixes",
         cancellation_policy="Não há reembolsos",
-        house_manager=CNGUser(
-            name="Alice Zqt",
-            phone_number="+351920920920",
-            languages=["Portuguese", "English"],
-        ),
+        house_managers=[
+            CNGUser(
+                name="Alice Zqt",
+                phone_number="+351920920920",
+                languages=["Portuguese", "English"],
+            ),
+        ]
     ),
     3: CNGPropertyInDB(
         id=3,
@@ -132,11 +137,13 @@ data = {
         ),
         additional_info="Somos fixes",
         cancellation_policy="Não há reembolsos",
-        house_manager=CNGUser(
-            name="Alice Zqt",
-            phone_number="+351920920920",
-            languages=["Portuguese", "English"],
-        ),
+        house_managers=[
+            CNGUser(
+                name="Alice Zqt",
+                phone_number="+351920920920",
+                languages=["Portuguese", "English"],
+            ),
+        ]
     ),
     4: CNGPropertyInDB(
         id=4,
@@ -168,11 +175,13 @@ data = {
         ),
         additional_info="Somos fixes",
         cancellation_policy="Não há reembolsos",
-        house_manager=CNGUser(
-            name="Alice Zqt",
-            phone_number="+351920920920",
-            languages=["Portuguese", "English"],
-        ),
+        house_managers=[
+            CNGUser(
+                name="Alice Zqt",
+                phone_number="+351920920920",
+                languages=["Portuguese", "English"],
+            ),
+        ]
     ),
     5: CNGPropertyInDB(
         id=5,
@@ -204,11 +213,13 @@ data = {
         ),
         additional_info="Somos fixes",
         cancellation_policy="Não há reembolsos",
-        house_manager=CNGUser(
-            name="Alice Zqt",
-            phone_number="+351920920920",
-            languages=["Portuguese", "English"],
-        ),
+        house_managers=[
+            CNGUser(
+                name="Alice Zqt",
+                phone_number="+351920920920",
+                languages=["Portuguese", "English"],
+            ),
+        ]
     ),
     6: CNGPropertyInDB(
         id=6,
@@ -249,11 +260,13 @@ data = {
         ),
         additional_info="Somos fixes",
         cancellation_policy="Não há reembolsos",
-        house_manager=CNGUser(
-            name="Alice Zqt",
-            phone_number="+351920920920",
-            languages=["Portuguese", "English"],
-        ),
+        house_managers=[
+            CNGUser(
+                name="Alice Zqt",
+                phone_number="+351920920920",
+                languages=["Portuguese", "English"],
+            ),
+        ]
     ),
     7: CNGPropertyInDB(
         id=7,
@@ -285,11 +298,13 @@ data = {
         ),
         additional_info="Somos fixes",
         cancellation_policy="Não há reembolsos",
-        house_manager=CNGUser(
-            name="Joe Doe",
-            phone_number="+351910910910",
-            languages=["Portuguese", "English", "Spanish", "Italian"],
-        ),
+        house_managers=[
+            CNGUser(
+                name="Joe Doe",
+                phone_number="+351910910910",
+                languages=["Portuguese", "English", "Spanish", "Italian"],
+            ),
+        ]
     ),
     8: CNGPropertyInDB(
         id=8,
@@ -321,11 +336,13 @@ data = {
         ),
         additional_info="Somos fixes",
         cancellation_policy="Não há reembolsos",
-        house_manager=CNGUser(
-            name="Joe Doe",
-            phone_number="+351910910910",
-            languages=["Portuguese", "English", "Spanish", "Italian"],
-        ),
+        house_managers=[
+            CNGUser(
+                name="Joe Doe",
+                phone_number="+351910910910",
+                languages=["Portuguese", "English", "Spanish", "Italian"],
+            ),
+        ]
     ),
     9: CNGPropertyInDB(
         id=9,
@@ -357,11 +374,13 @@ data = {
         ),
         additional_info="Somos fixes",
         cancellation_policy="Não há reembolsos",
-        house_manager=CNGUser(
-            name="Joe Doe",
-            phone_number="+351910910910",
-            languages=["Portuguese", "English", "Spanish", "Italian"],
-        ),
+        house_managers=[
+            CNGUser(
+                name="Joe Doe",
+                phone_number="+351910910910",
+                languages=["Portuguese", "English", "Spanish", "Italian"],
+            ),
+        ]
     ),
     10: CNGPropertyInDB(
         id=10,
@@ -396,11 +415,13 @@ data = {
         ),
         additional_info="Somos fixes",
         cancellation_policy="Não há reembolsos",
-        house_manager=CNGUser(
-            name="Joe Doe",
-            phone_number="+351910910910",
-            languages=["Portuguese", "English", "Spanish", "Italian"],
-        ),
+        house_managers=[
+            CNGUser(
+                name="Joe Doe",
+                phone_number="+351910910910",
+                languages=["Portuguese", "English", "Spanish", "Italian"],
+            ),
+        ]
     ),
 }
 
@@ -440,7 +461,7 @@ def create_property(property_data: CNGPropertyBase) -> CNGPropertyInDB:
             house_rules=property_data.house_rules,
             additional_info=property_data.additional_info,
             cancellation_policy=property_data.cancellation_policy,
-            house_manager=property_data.house_manager,
+            house_managers=property_data.house_managers,
             id=id,
         )
         data[id] = property_in_db
