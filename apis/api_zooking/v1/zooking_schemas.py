@@ -33,6 +33,7 @@ class ZookingBathroom(BaseModel):
 
 
 class ZookingPropertyBase(PropertyBase):
+    location: str
     description: str
     number_of_guests: int
     square_meters: int
@@ -43,6 +44,7 @@ class ZookingPropertyBase(PropertyBase):
 
 
 class ZookingPropertyBaseUpdate(PropertyBaseUpdate):
+    location: Optional[str] = None
     description: Optional[str] = None
     number_of_guests: Optional[int] = None
     square_meters: Optional[int] = None
