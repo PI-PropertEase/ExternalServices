@@ -31,6 +31,7 @@ class CNGBathroomFixtures(str, Enum):
 
 
 class CNGBathroom(BaseModel):
+    name: str
     bathroom_fixtures: list[CNGBathroomFixtures]
 
 
@@ -50,6 +51,7 @@ class CNGHouseRules(BaseModel):
 
 
 class CNGPropertyBase(PropertyBase):
+    town: str
     description: str
     guest_num: int
     house_area: int
@@ -59,20 +61,21 @@ class CNGPropertyBase(PropertyBase):
     house_rules: CNGHouseRules
     additional_info: str
     cancellation_policy: str
-    house_manager: CNGUser
+    house_managers: list[CNGUser]
 
 
 class CNGPropertyBaseUpdate(PropertyBaseUpdate):
+    town: Optional[str] = None
     description: Optional[str] = None
-    guest_num: Optional[int]
-    house_area: Optional[int]
+    guest_num: Optional[int] = None
+    house_area: Optional[int] = None
     bedrooms: Optional[dict[str, list[CNGBedroom]]] = None
     bathrooms: Optional[list[CNGBathroom]] = None
     available_amenities: Optional[list[CNGAmenity]] = None
     house_rules: Optional[CNGHouseRules] = None
     additional_info: Optional[str] = None
     cancellation_policy: Optional[str] = None
-    house_manager: Optional[CNGUser] = None
+    house_managers: Optional[list[CNGUser]] = None
 
 
 class CNGPropertyInDB(CNGPropertyBase):

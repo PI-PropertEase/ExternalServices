@@ -44,6 +44,7 @@ class EarthStayinHouseRules(BaseModel):
 
 
 class EarthStayinPropertyBase(PropertyBase):
+    city: str
     description: str
     number_of_guests: int
     square_meters: int
@@ -56,6 +57,7 @@ class EarthStayinPropertyBase(PropertyBase):
 
 
 class EarthStayinPropertyBaseUpdate(PropertyBaseUpdate):
+    city: Optional[str] = None
     description: Optional[str] = None
     number_of_guests: Optional[int] = None
     square_meters: Optional[int] = None

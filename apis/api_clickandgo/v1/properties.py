@@ -20,6 +20,7 @@ data = {
         user_email="joedoe@gmail.com",
         name="Girassol",
         address="Rua 1234",
+        town="Figueira da Foz",
         curr_price=143.00,
         description="Cool house",
         guest_num=3,
@@ -34,6 +35,7 @@ data = {
         },
         bathrooms=[
             CNGBathroom(
+                name="Ground Floor Bathroom",
                 bathroom_fixtures=[
                     CNGBathroomFixtures.TOILET,
                     CNGBathroomFixtures.SHOWER,
@@ -51,17 +53,20 @@ data = {
         ),
         additional_info="Somos fixes",
         cancellation_policy="Não há reembolsos",
-        house_manager=CNGUser(
-            name="Joe Doe",
-            phone_number="+351910910910",
-            languages=["Portuguese", "English", "Spanish", "Italian"],
-        ),
+        house_managers=[
+            CNGUser(
+                name="Joe Doe",
+                phone_number="+351910910910",
+                languages=["Portuguese", "English", "Spanish", "Italian"],
+            ),
+        ]
     ),
     2: CNGPropertyInDB(
         id=2,
         user_email="alicez@gmail.com",
         name="Poente Azul",
         address="Rua 5678",
+        town="Cantanhede",
         curr_price=22.00,
         description="Interesting house",
         guest_num=5,
@@ -87,17 +92,20 @@ data = {
         ),
         additional_info="Somos fixes",
         cancellation_policy="Não há reembolsos",
-        house_manager=CNGUser(
-            name="Alice Zqt",
-            phone_number="+351920920920",
-            languages=["Portuguese", "English"],
-        ),
+        house_managers=[
+            CNGUser(
+                name="Alice Zqt",
+                phone_number="+351920920920",
+                languages=["Portuguese", "English"],
+            ),
+        ]
     ),
     3: CNGPropertyInDB(
         id=3,
         user_email="alicez@gmail.com",
         name="Conforto e Bem Estar",
         address="Rua 91011",
+        town="Gaia",
         curr_price=38.00,
         description="Don't visit at 3am",
         guest_num=4,
@@ -132,17 +140,20 @@ data = {
         ),
         additional_info="Somos fixes",
         cancellation_policy="Não há reembolsos",
-        house_manager=CNGUser(
-            name="Alice Zqt",
-            phone_number="+351920920920",
-            languages=["Portuguese", "English"],
-        ),
+        house_managers=[
+            CNGUser(
+                name="Alice Zqt",
+                phone_number="+351920920920",
+                languages=["Portuguese", "English"],
+            ),
+        ]
     ),
     4: CNGPropertyInDB(
         id=4,
         user_email="alicez@gmail.com",
         name="Flores e Amores",
         address="Rua 121314",
+        town="Coimbra",
         curr_price=30.00,
         description="Amores e flores",
         guest_num=4,
@@ -168,17 +179,20 @@ data = {
         ),
         additional_info="Somos fixes",
         cancellation_policy="Não há reembolsos",
-        house_manager=CNGUser(
-            name="Alice Zqt",
-            phone_number="+351920920920",
-            languages=["Portuguese", "English"],
-        ),
+        house_managers=[
+            CNGUser(
+                name="Alice Zqt",
+                phone_number="+351920920920",
+                languages=["Portuguese", "English"],
+            ),
+        ]
     ),
     5: CNGPropertyInDB(
         id=5,
         user_email="alicez@gmail.com",
         name="São José Residences",
         address="Rua 151617",
+        town="Santarém",
         curr_price=59.00,
         description="A lenda reza que o são josé abre as portas da casa de banho durante a noite",
         guest_num=4,
@@ -204,17 +218,20 @@ data = {
         ),
         additional_info="Somos fixes",
         cancellation_policy="Não há reembolsos",
-        house_manager=CNGUser(
-            name="Alice Zqt",
-            phone_number="+351920920920",
-            languages=["Portuguese", "English"],
-        ),
+        house_managers=[
+            CNGUser(
+                name="Alice Zqt",
+                phone_number="+351920920920",
+                languages=["Portuguese", "English"],
+            ),
+        ]
     ),
     6: CNGPropertyInDB(
         id=6,
         user_email="alicez@gmail.com",
         name="Residencial Aveiro",
         address="Rua 181920",
+        town="Castelo Branco",
         curr_price=131.00,
         description="Espaçoso",
         guest_num=4,
@@ -249,17 +266,20 @@ data = {
         ),
         additional_info="Somos fixes",
         cancellation_policy="Não há reembolsos",
-        house_manager=CNGUser(
-            name="Alice Zqt",
-            phone_number="+351920920920",
-            languages=["Portuguese", "English"],
-        ),
+        house_managers=[
+            CNGUser(
+                name="Alice Zqt",
+                phone_number="+351920920920",
+                languages=["Portuguese", "English"],
+            ),
+        ]
     ),
     7: CNGPropertyInDB(
         id=7,
         user_email="joedoe@gmail.com",
         name="Ponto8",
         address="Rua 212223",
+        town="Bragança",
         curr_price=32.44,
         description="Baratíssimo e alta qualidade",
         guest_num=5,
@@ -285,17 +305,20 @@ data = {
         ),
         additional_info="Somos fixes",
         cancellation_policy="Não há reembolsos",
-        house_manager=CNGUser(
-            name="Joe Doe",
-            phone_number="+351910910910",
-            languages=["Portuguese", "English", "Spanish", "Italian"],
-        ),
+        house_managers=[
+            CNGUser(
+                name="Joe Doe",
+                phone_number="+351910910910",
+                languages=["Portuguese", "English", "Spanish", "Italian"],
+            ),
+        ]
     ),
     8: CNGPropertyInDB(
         id=8,
         user_email="joedoe@gmail.com",
         name="Bom Lugar",
         address="Rua 242526",
+        town="Albufeira",
         curr_price=137.00,
         description="Venham visitar, somos fixes",
         guest_num=4,
@@ -321,17 +344,20 @@ data = {
         ),
         additional_info="Somos fixes",
         cancellation_policy="Não há reembolsos",
-        house_manager=CNGUser(
-            name="Joe Doe",
-            phone_number="+351910910910",
-            languages=["Portuguese", "English", "Spanish", "Italian"],
-        ),
+        house_managers=[
+            CNGUser(
+                name="Joe Doe",
+                phone_number="+351910910910",
+                languages=["Portuguese", "English", "Spanish", "Italian"],
+            ),
+        ]
     ),
     9: CNGPropertyInDB(
         id=9,
         user_email="joedoe@gmail.com",
         name="Hotel Miradouro",
         address="Rua 272829",
+        town="Braga",
         curr_price=33.00,
         description="Olá",
         guest_num=5,
@@ -357,17 +383,20 @@ data = {
         ),
         additional_info="Somos fixes",
         cancellation_policy="Não há reembolsos",
-        house_manager=CNGUser(
-            name="Joe Doe",
-            phone_number="+351910910910",
-            languages=["Portuguese", "English", "Spanish", "Italian"],
-        ),
+        house_managers=[
+            CNGUser(
+                name="Joe Doe",
+                phone_number="+351910910910",
+                languages=["Portuguese", "English", "Spanish", "Italian"],
+            ),
+        ]
     ),
     10: CNGPropertyInDB(
         id=10,
         user_email="joedoe@gmail.com",
         name="Spot Hostel",
         address="Rua 303132",
+        town="Aveiro",
         curr_price=91.00,
         description="Nao sei o que escrever aqui",
         guest_num=3,
@@ -396,11 +425,13 @@ data = {
         ),
         additional_info="Somos fixes",
         cancellation_policy="Não há reembolsos",
-        house_manager=CNGUser(
-            name="Joe Doe",
-            phone_number="+351910910910",
-            languages=["Portuguese", "English", "Spanish", "Italian"],
-        ),
+        house_managers=[
+            CNGUser(
+                name="Joe Doe",
+                phone_number="+351910910910",
+                languages=["Portuguese", "English", "Spanish", "Italian"],
+            ),
+        ]
     ),
 }
 
@@ -430,6 +461,7 @@ def create_property(property_data: CNGPropertyBase) -> CNGPropertyInDB:
             user_email=property_data.user_email,
             name=property_data.name,
             address=property_data.address,
+            town=property_data.town,
             curr_price=property_data.curr_price,
             description=property_data.description,
             guest_num=property_data.guest_num,
@@ -440,7 +472,7 @@ def create_property(property_data: CNGPropertyBase) -> CNGPropertyInDB:
             house_rules=property_data.house_rules,
             additional_info=property_data.additional_info,
             cancellation_policy=property_data.cancellation_policy,
-            house_manager=property_data.house_manager,
+            house_managers=property_data.house_managers,
             id=id,
         )
         data[id] = property_in_db
